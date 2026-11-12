@@ -1,0 +1,1674 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#19251f">
+  <title>탐정, 미스터 아이</title>
+  <style>
+    @font-face {
+      font-family: "Memoment Kkukkukk";
+      src: url("MemomentKkukkukk.ttf") format("truetype");
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+    }
+    :root {
+      --font-game: "Memoment Kkukkukk", "Malgun Gothic", "Apple SD Gothic Neo", system-ui, sans-serif;
+      --ink: #202920;
+      --deep: #19251f;
+      --muted: #536052;
+      --paper: #f7f4e9;
+      --white: #fffdf5;
+      --line: #d1cebd;
+      --rust: #9b3a26;
+      --gold: #eec66d;
+    }
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font: 1rem/1.65 var(--font-game);
+    }
+    .wrap { width: min(100% - 2rem, 65rem); margin-inline: auto; }
+    .masthead { background: var(--deep); color: var(--white); }
+    .masthead .wrap {
+      display: flex; justify-content: space-between; align-items: center;
+      gap: .65rem; padding-block: .8rem;
+    }
+    .brand { font-weight: 800; }
+    .stamp, .eyebrow { font-size: .75rem; font-weight: 850; letter-spacing: .12em; }
+    .stamp { color: var(--gold); white-space: nowrap; }
+    main { padding-block: 1.4rem 2.8rem; }
+    .title-open { background: var(--deep); }
+    .title-open .masthead, .title-open .case-progress, .title-open footer { display: none; }
+    .title-open main {
+      min-height: 100svh;
+      width: 100%;
+      padding: 0;
+    }
+    .progress { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: .4rem; margin: 0 0 1.1rem; padding: 0; }
+    .progress li {
+      padding: .45rem .2rem; border-bottom: 2px solid var(--line);
+      text-align: center; color: var(--muted); font-size: .83rem;
+    }
+    .progress li[aria-current="step"] { border-color: var(--rust); color: var(--rust); font-weight: 850; }
+    .panel { background: var(--white); border: 1px solid var(--line); border-radius: .85rem; padding: clamp(1rem, 4vw, 2.4rem); }
+    .hero { position: relative; min-height: 100svh; overflow: hidden; background: #392a1c; }
+    .title-scene { position: absolute; inset: 0; container-type: inline-size; }
+    .hero-art { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 34%; }
+    .title-logo { position: absolute; z-index: 1; top: 6.5%; left: 5%; }
+    .title-logo .eyebrow {
+      margin-bottom: .55em;
+      color: #803c27;
+      font-size: clamp(.65rem, 1.5cqw, 1rem);
+    }
+    h1, h2, h3 { margin: 0; line-height: 1.22; word-break: keep-all; }
+    .title-logo h1 {
+      color: #302419;
+      font-size: clamp(1.35rem, 6.4cqw, 4.85rem);
+      font-weight: 950;
+      letter-spacing: -.075em;
+      line-height: 1.08;
+      text-shadow: 0 .04em #fff1ce, .04em 0 #fff1ce, -.04em 0 #fff1ce;
+    }
+    .title-logo h1 span { display: block; color: #8b3c27; }
+    .title-action {
+      position: absolute;
+      inset: auto 0 0;
+      display: grid;
+      justify-items: end;
+      gap: .6rem;
+      padding: 1.5rem max(clamp(1rem, 4vw, 3.5rem), env(safe-area-inset-right)) max(clamp(.9rem, 3vw, 2.5rem), env(safe-area-inset-bottom)) 1rem;
+      background: linear-gradient(transparent, rgb(35 25 17 / .92));
+      color: #fff7df;
+      text-align: center;
+    }
+    .title-action p { margin: 0; font-weight: 700; text-wrap: balance; }
+    .title-subtitle {
+      padding: .52rem 1.235rem; border: 1.3px solid #d4a173; border-radius: 1.04rem;
+      font-size: 1.3rem;
+      background: #61412f url("detective-paper.png") center / 19rem auto;
+      background-blend-mode: multiply; color: #fff8e6; box-shadow: 0 .16rem .55rem #27170f66;
+    }
+    h2 { font-size: clamp(1.7rem, 5vw, 2.8rem); letter-spacing: -.045em; }
+    h3 { font-size: 1.12rem; }
+    p { margin: .7rem 0; }
+    .eyebrow { margin: 0 0 .65rem; color: var(--rust); }
+    .muted { color: var(--muted); }
+    .actions { display: flex; flex-wrap: wrap; gap: .55rem; margin-top: 1.15rem; }
+    button, .button {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 2.75rem; padding: .55rem .9rem; border: 1px solid var(--deep);
+      border-radius: .4rem; background: var(--deep); color: var(--white);
+      font: inherit; font-weight: 750; text-decoration: none; cursor: pointer;
+    }
+    .title-action button {
+      gap: 1.001rem;
+      min-width: min(23.66rem, 100%);
+      min-height: 5.005rem;
+      padding: 1.274rem 3.003rem;
+      border: 3.64px solid #694628;
+      border-radius: 1.001rem;
+      background:
+        radial-gradient(circle, #9b6030 1px, transparent 2px) left .35rem center / 8px 8px no-repeat,
+        radial-gradient(circle, #9b6030 1px, transparent 2px) right .35rem center / 8px 8px no-repeat,
+        linear-gradient(165deg, #fff1ce, #e7b975);
+      color: #42291c;
+      box-shadow: inset 0 0 0 2px #fff3d6, inset 0 0 0 3px #b68047, 0 .2rem .35rem #25190f;
+      font-size: 2.002rem;
+    }
+    .title-action button svg { flex: none; width: 32.76px; height: 32.76px; color: #78492d; }
+    button.secondary { background: transparent; color: var(--deep); }
+    button:not(:disabled):hover, .button:hover { filter: brightness(1.16); }
+    button:disabled { opacity: .55; cursor: default; }
+    :focus-visible { outline: 3px solid #ad502f; outline-offset: 4px; }
+    .title-action :focus-visible { outline-color: var(--gold); }
+    @media (max-aspect-ratio: 1/1) {
+      .title-scene::before {
+        position: absolute; inset: 0; content: "";
+        background: url("title-office.png") center / cover no-repeat;
+        filter: blur(18px) brightness(.7);
+      }
+      .hero-art { position: relative; object-fit: contain; object-position: center; }
+      .title-logo { top: max(1rem, calc(50% - 100vw / 3 + .5rem)); }
+    }
+    .note { margin: 1rem 0 0; padding: .85rem 1rem; background: #f1eddf; border-left: 3px solid var(--rust); }
+    .note p { margin: .35rem 0 0; }
+    .comic-open { background: #251a14; }
+    .comic-open .masthead, .comic-open .case-progress, .comic-open footer { display: none; }
+    .comic-open main { width: 100%; padding: 0; }
+    .comic-screen { position: relative; min-height: 100svh; overflow: hidden; isolation: isolate; }
+    .comic-heading {
+      position: absolute; z-index: 1; top: 1rem; left: 1rem;
+      display: flex; align-items: center; gap: .7rem; padding: .4rem .7rem;
+      border-radius: .45rem; background: #2f2119; color: #fff1d2;
+    }
+    .comic-heading h2, .comic-count { margin: 0; font-size: .85rem; font-weight: 800; }
+    .comic-count { color: #efc77f; }
+    .comic-frame { position: absolute; inset: 0; margin: 0; cursor: pointer; }
+    .comic-art {
+      position: absolute; inset: 0; overflow: hidden; background: #392a1c;
+      --comic-image: url("comic-fhd/incident-1.jpg");
+    }
+    .comic-course-link {
+      position: absolute; z-index: 2; left: 50%; bottom: max(5%, env(safe-area-inset-bottom)); width: 80%;
+      transform: translateX(-50%); border-color: #6d492b; background: #f6e1ac; color: #39271b;
+      box-shadow: 0 .2rem 0 #56351f, 0 .4rem .85rem #39271b55; text-align: center; word-break: keep-all;
+    }
+    .comic-art::before, .comic-art::after {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: min(100%, 177.778svh); aspect-ratio: 16 / 9; content: "";
+      background: var(--comic-image) center / contain no-repeat;
+    }
+    .comic-art::before { width: max(100%, 177.778svh); filter: blur(20px) brightness(.56); }
+    .comic-memory {
+      position: absolute; z-index: 1; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: min(100%, 177.778svh); aspect-ratio: 16 / 9; pointer-events: none;
+    }
+    .comic-memory-spot {
+      position: absolute; top: 72%; left: 71%; transform: translate(-50%, -50%);
+      display: grid; place-items: center; width: 30.4%; aspect-ratio: 1;
+    }
+    .comic-memory-spot::before, .comic-memory-spot img { grid-area: 1 / 1; }
+    .comic-memory-spot::before {
+      width: 100%; aspect-ratio: 1; content: "";
+      background: radial-gradient(circle closest-side, #fff 56%, #fffe 71%, #fff0 100%);
+    }
+    .comic-memory-spot img { position: relative; display: block; width: 62%; height: auto; }
+    @media (prefers-reduced-motion: no-preference) {
+      .comic-screen[data-chapter="incident"] .comic-art[data-panel="1"] {
+        animation: comic-fade-in 1.3s ease-out both;
+      }
+      .comic-screen[data-chapter="incident"] .comic-art[data-panel="2"]::after {
+        animation: comic-door-impact .32s ease-out both;
+      }
+      .comic-screen[data-chapter="incident"] .comic-art[data-panel="3"]::after {
+        transform-origin: 33% 49%;
+        --comic-zoom: 1.075;
+        animation: comic-focus .45s ease-out both;
+      }
+      .comic-screen[data-chapter="incident"] .comic-art[data-panel="4"]::after {
+        transform-origin: 50% 57%;
+        --comic-zoom: 1.14;
+        animation: comic-focus 4.8s ease-in-out both;
+      }
+      .comic-screen[data-chapter="incident"] .comic-art[data-panel="6"]::after {
+        transform-origin: 68% 60%;
+        animation: comic-departure 3.8s ease-out both;
+      }
+      .comic-screen[data-chapter="investigation"] .comic-art[data-panel="1"]::after {
+        transform-origin: 49% 62%;
+        --comic-zoom: 1.13;
+        animation: comic-focus 4.5s ease-in-out both;
+      }
+      .comic-screen[data-chapter="investigation"] .comic-memory:not([hidden]) {
+        animation: comic-fade-in 1.2s ease-out both;
+      }
+      .comic-screen[data-chapter="investigation"] .comic-art[data-panel="5"]::after {
+        transform-origin: 32% 66%;
+        --comic-zoom: 1.12;
+        animation: comic-focus 4.5s ease-in-out both;
+      }
+      .comic-screen[data-chapter="investigation"] .comic-art[data-panel="6"]::after {
+        transform-origin: 67% 54%;
+        --comic-zoom: 1.075;
+        animation: comic-focus .45s ease-out both;
+      }
+      .comic-screen[data-fading] { background: #000; }
+      .comic-screen[data-fading] > * { animation: comic-fade-in .5s ease-in reverse both; }
+      @keyframes comic-fade-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      @keyframes comic-door-impact {
+        0%, 100% { transform: translate(-50%, -50%); }
+        20% { transform: translate(calc(-50% - 7px), -50%); }
+        45% { transform: translate(calc(-50% + 5px), -50%); }
+        70% { transform: translate(calc(-50% - 2px), -50%); }
+      }
+      @keyframes comic-focus {
+        from { transform: translate(-50%, -50%) scale(1); }
+        to { transform: translate(-50%, -50%) scale(var(--comic-zoom)); }
+      }
+      @keyframes comic-departure {
+        from { transform: translate(-50%, -50%) scale(1.1); }
+        to { transform: translate(-50%, -50%) scale(1); }
+      }
+    }
+    .comic-caption {
+      position: absolute; top: 13%; left: 10%; width: max-content; max-width: min(78%, 25rem);
+      padding: clamp(.55rem, 1.2vw, .95rem) clamp(.85rem, 1.8vw, 1.4rem);
+      border: 2px solid #49301e; border-radius: 1.45rem;
+      background: #fff8e6; color: #39271b; box-shadow: 0 .2rem 0 #49301e55;
+    }
+    .comic-caption[data-panel="1"] { border-radius: .4rem; }
+    .comic-caption[data-panel="4"] { left: auto; right: 7%; top: 9%; }
+    .comic-caption[data-panel="5"] { top: 19%; left: 24%; }
+    .comic-caption[data-panel="6"] { left: auto; top: 15%; }
+    .comic-screen[data-chapter="incident"] .comic-caption[data-panel="2"] { top: 22%; left: 34%; }
+    .comic-screen[data-chapter="incident"] .comic-caption[data-panel="3"] { left: 23%; }
+    .comic-screen[data-chapter="incident"] .comic-caption[data-panel="5"] { left: 42%; }
+    .comic-screen[data-chapter="incident"] .comic-caption[data-panel="6"] { right: 32%; }
+    .comic-screen[data-chapter="investigation"] .comic-caption[data-panel="2"] { top: 12%; left: 60%; max-width: 37%; }
+    .comic-screen[data-chapter="investigation"] .comic-caption[data-panel="3"] { left: 22%; }
+    .comic-screen[data-chapter="investigation"] .comic-caption[data-panel="4"] { right: 20%; }
+    .comic-screen[data-chapter="investigation"] .comic-caption[data-panel="5"] { left: 38%; }
+    .comic-screen[data-chapter="investigation"] .comic-caption[data-panel="6"] { right: 20%; }
+    .comic-screen[data-chapter="investigation"] .comic-caption[data-panel="7"] { top: 11%; left: 20%; }
+    .comic-screen[data-chapter="ending"] .comic-caption[data-panel="2"] { left: 20%; }
+    .comic-screen[data-chapter="ending"] .comic-caption[data-panel="3"] { left: 16%; }
+    .comic-screen[data-chapter="ending"] .comic-caption[data-panel="4"] { right: 12%; }
+    .comic-screen[data-chapter="ending"] .comic-caption[data-panel="6"] { right: 50%; max-width: 47%; }
+    .comic-caption[data-rabbit] { z-index: 2; max-width: min(45%, 22rem); }
+    .comic-caption strong { color: var(--rust); font-size: .82rem; }
+    .comic-caption p { margin: .1rem 0 0; font-size: clamp(1rem, 2.25vw, 1.55rem); font-weight: 800; line-height: 1.4; word-break: keep-all; }
+    .comic-screen[data-chapter="incident"] .comic-caption {
+      background: #fff4dc url("detective-paper.png") center / 21rem auto;
+      background-blend-mode: multiply;
+    }
+    .comic-screen[data-chapter="incident"] .comic-caption {
+      max-width: min(81%, 28.75rem);
+      padding: clamp(.6325rem, 1.38vw, 1.0925rem) clamp(.9775rem, 2.07vw, 1.61rem);
+    }
+    .comic-screen[data-chapter="incident"] .comic-caption strong { font-size: .943rem; }
+    .comic-screen[data-chapter="incident"] .comic-caption p { font-size: clamp(1.15rem, 2.5875vw, 1.7825rem); }
+    .comic-controls {
+      position: absolute; inset: auto auto max(1rem, env(safe-area-inset-bottom)) 1rem;
+      max-width: calc(100% - 2rem); padding: .3rem .5rem;
+      border-radius: .55rem; background: rgb(47 33 25 / .96); color: #fff1d2;
+    }
+    .comic-legend { display: flex; align-items: center; flex-wrap: wrap; column-gap: .2rem; }
+    .comic-controls button, .comic-pause {
+      gap: .4rem; padding: .35rem .5rem; border: 0; background: transparent;
+      color: #fff1d2; font-size: .85rem;
+    }
+    .comic-controls svg { flex: none; color: #efc77f; }
+    .comic-controls small { color: #efc77f; font-size: .75rem; }
+    .comic-pause {
+      position: absolute; right: 1rem; top: 1rem; min-height: 2.15rem;
+      background: #2f2119;
+    }
+    .comic-controls :focus-visible, .comic-pause:focus-visible { outline-color: var(--gold); }
+    .skip-meter { height: .2rem; overflow: hidden; border-radius: 1rem; }
+    .skip-meter::before { display: block; height: 100%; width: 0; background: var(--gold); content: ""; }
+    .skip-meter.holding::before { width: 100%; transition: width 2s linear; }
+    @media (max-aspect-ratio: 1/1) {
+      .comic-course-link { bottom: max(1rem, calc(50% - 100vw * 9 / 32 - 2.5rem)); }
+      .comic-caption[data-panel], .comic-screen[data-chapter] .comic-caption[data-panel] {
+        top: max(3.5rem, calc(50% - 100vw * 9 / 32 + .35rem));
+      }
+    }
+    .house-open { background: #392a1c; }
+    .house-open .masthead, .house-open .case-progress, .house-open footer { display: none; }
+    .house-open main { width: 100%; padding: 0; }
+    .house-open #game { padding: 0; border: 0; border-radius: 0; }
+    .result-open { background: #000; }
+    .result-open .masthead, .result-open .case-progress, .result-open footer { display: none; }
+    .result-open main { width: 100%; padding: 0; }
+    .result-screen {
+      --thinking-height: min(clamp(9rem, 52svh, 24rem), calc((100svh - 8rem) / 1.4));
+      position: relative; display: grid; place-items: center; isolation: isolate; overflow: hidden;
+      min-height: 100svh; background: #000;
+    }
+    .result-title {
+      position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+    }
+    .result-detective {
+      display: block; height: var(--thinking-height); max-width: 70vw; object-fit: contain; transform: scale(.2);
+    }
+    .result-screen[data-stage="medium"] .result-detective { transform: scale(.8); }
+    .result-screen:is([data-stage="large"], [data-stage="suspense"]) .result-detective { transform: scale(1.4); }
+    .result-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+    .result-line {
+      position: absolute; z-index: 1; top: calc(50% + var(--thinking-height) * .7 + .75rem);
+      max-width: calc(100% - 2rem); margin: 0; padding: .55rem 1.2rem; border-radius: .65rem;
+      background: #fff5de; color: #39271b; text-align: center; font-size: clamp(1.25rem, 4vw, 2.3rem);
+    }
+    .result-line:empty { padding: 0; }
+    .result-screen[data-stage="reveal"] .result-line {
+      inset: 9% 8% auto auto; border: 2px solid #65432c; box-shadow: 0 .2rem 0 #39271b55;
+    }
+    .result-continue {
+      position: absolute; z-index: 1; right: clamp(.75rem, 4vw, 2.5rem);
+      bottom: max(1rem, env(safe-area-inset-bottom)); border-color: #6d492b;
+      background: #f6e1ac; color: #39271b;
+    }
+    @media (max-aspect-ratio: 1/1) {
+      .result-screen[data-stage="reveal"] .result-line { inset: auto 5% calc(50% + 100vw * 9 / 32 + .5rem) auto; }
+    }
+    .house-scene {
+      --scene-edge: clamp(.7rem, 3vw, 2.2rem);
+      --nahee-width: clamp(7.2rem, 22.8vw, 16.8rem);
+      --detective-ratio: 1.16;
+      position: relative; min-height: 100svh; isolation: isolate; background: #ebd5aa; touch-action: none;
+    }
+    .room-viewport { position: absolute; inset: 0; overflow: hidden; cursor: grab; }
+    .house-scene.panning, .house-scene.panning * { cursor: grabbing; }
+    .room-world { position: absolute; width: 1536px; height: 1024px; transform-origin: top left; }
+    .house-map { display: block; width: 100%; height: 100%; pointer-events: none; user-select: none; }
+    .house-heading {
+      position: absolute; top: var(--scene-edge); left: var(--scene-edge);
+      display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center;
+      gap: clamp(.55rem, 2vw, 1rem);
+      max-width: calc(100% - 2 * var(--scene-edge)); padding: .75rem 1rem;
+      border: 1px solid #855a3c; border-radius: .6rem; background: #fff8e6; color: #39271b;
+      box-shadow: 0 .2rem .7rem #39271b35;
+    }
+    .house-heading-title { white-space: nowrap; }
+    .house-heading-help {
+      display: grid; gap: .2rem; min-width: 0; padding-left: clamp(.55rem, 2vw, 1rem);
+      border-left: 1px solid #d9c0a0; word-break: keep-all;
+    }
+    .house-heading h2 { font-size: clamp(1.45rem, 4vw, 2rem); }
+    .house-heading .eyebrow { margin-bottom: .25rem; }
+    .house-heading .muted { margin: 0; font-size: .9rem; }
+    .nahee-hotspot {
+      position: absolute; left: var(--scene-edge); bottom: 0;
+      display: grid; justify-items: center; gap: .15rem; width: var(--nahee-width);
+      padding: 0; border: 0; border-radius: .6rem; background: transparent;
+    }
+    .nahee-portrait, .detective-sprite {
+      position: relative; display: block; width: 100%; overflow: hidden;
+      transform: scaleX(-1);
+    }
+    .nahee-portrait { aspect-ratio: 1.13; }
+    .nahee-hotspot img { display: block; width: 100%; height: auto; pointer-events: none; }
+    .nahee-hotspot:hover img { filter: drop-shadow(0 0 .35rem #fff4cf); }
+    .nahee-hotspot:focus-visible { outline-color: #fff4cf; box-shadow: 0 0 0 3px #8b3c27; }
+    .nahee-name {
+      position: absolute; left: calc(100% + .15rem); bottom: max(.3rem, env(safe-area-inset-bottom));
+      padding: .2rem .58rem; border: 1px solid #fff4cf; border-radius: 2rem;
+      background: #773725; color: #fff4cf; font-size: .82rem; white-space: nowrap;
+    }
+    .nahee-dialogue {
+      position: absolute; z-index: 1; left: calc(var(--scene-edge) + var(--nahee-width) + .45rem);
+      bottom: clamp(2.25rem, 20svh, 11rem);
+      width: min(calc(100% - 2 * var(--scene-edge) - var(--nahee-width) - .45rem), 27rem);
+      padding: .85rem 1rem; border: 2px solid #62452e; border-radius: .95rem;
+      background: #fff8e6; color: #39271b; box-shadow: 0 .2rem 0 #49301e55;
+    }
+    .nahee-dialogue h3 { color: var(--rust); }
+    .nahee-dialogue p { margin: .45rem 0 .65rem; word-break: keep-all; }
+    .detective-target {
+      position: absolute; right: var(--scene-edge); bottom: 0;
+      display: grid; justify-items: center; gap: .2rem; width: var(--nahee-width);
+      padding: 0; border: 0; border-radius: 1rem; background: transparent;
+    }
+    .detective-sprite { aspect-ratio: var(--detective-ratio); }
+    .detective-sprite img { display: block; width: 100%; aspect-ratio: 1155 / 1362; object-fit: contain; pointer-events: none; }
+    .detective-sprite .reaction-sprite { position: absolute; inset: 0; visibility: hidden; }
+    .detective-target[data-reaction="insight"] .standing-sprite { visibility: hidden; }
+    .detective-target[data-reaction="insight"] .insight-sprite { visibility: visible; }
+    .detective-target[data-reaction="shake"] .standing-sprite { clip-path: inset(51% 0 0); }
+    .detective-target[data-reaction="shake"] .shake-head {
+      visibility: visible; clip-path: inset(0 0 47%); transform-origin: 50% 51%;
+      animation: detective-shake .58s ease-in-out;
+    }
+    @keyframes detective-shake {
+      0%, 100% { transform: rotate(0); }
+      16%, 52% { transform: rotate(-8deg); }
+      34%, 70% { transform: rotate(8deg); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .detective-target[data-reaction="shake"] .shake-head { animation: none; transform: rotate(-5deg); }
+    }
+    .detective-name {
+      position: absolute; right: calc(100% + .15rem); bottom: max(.3rem, env(safe-area-inset-bottom)); white-space: nowrap;
+      padding: .2rem .55rem; border: 1px solid #ffdf98; border-radius: 2rem;
+      background: #39271b; color: #fff4cf; font-size: .8rem;
+    }
+    @media (max-width: 24rem) {
+      .nahee-name, .detective-name { padding-inline: .33rem; font-size: .72rem; }
+      .nahee-name { bottom: max(1.85rem, calc(env(safe-area-inset-bottom) + 1.55rem)); }
+    }
+    .detective-reply {
+      position: absolute; z-index: 2; right: var(--scene-edge);
+      bottom: calc(var(--nahee-width) / var(--detective-ratio) + .55rem);
+      min-width: var(--nahee-width); max-width: min(27rem, calc(100% - 2 * var(--scene-edge)));
+      margin: 0; padding: .65rem .85rem; border: 2px solid #62452e; border-radius: .95rem;
+      background: #fff8e6; color: #39271b; font-weight: 750; pointer-events: none;
+    }
+    .detective-reply:empty { padding: 0; border: 0; }
+    .detective-target.ready { background: #fff0ae40; box-shadow: 0 0 0 .25rem #6e492d9c; }
+    .detective-target.over { background: #fff0ae80; }
+    .clue-token, .clue-ghost {
+      display: block; width: clamp(2.75rem, min(10vw, 12svh), 6rem); min-height: 0; aspect-ratio: 1;
+      padding: 0; border: 0; border-radius: .5rem; background-color: transparent;
+      background-image: url("clue-objects.png"); background-repeat: no-repeat;
+      background-size: 300% 200%; background-position: var(--object-x, 0%) var(--object-y, 0%);
+      filter: drop-shadow(0 3px 2px #4c2e1b62);
+    }
+    [data-clue="book"] { --object-x: 50%; }
+    [data-clue="print"], [data-clue="plant"] { --object-x: 100%; }
+    [data-clue="cushion"], [data-clue="book"], [data-clue="plant"] { --object-y: 100%; }
+    .clue-token {
+      position: absolute; left: var(--x); top: var(--y); transform: translate(-50%, -50%);
+      width: 85px; touch-action: none; user-select: none; cursor: grab;
+    }
+    .clue-token[aria-pressed="true"] { outline: 3px solid #9b3a26; outline-offset: 2px; }
+    .clue-token:hover, .clue-ghost { filter: drop-shadow(0 0 5px #fff5d5) drop-shadow(0 3px 2px #4c2e1b80); }
+    .clue-ghost { position: fixed; z-index: 5; transform: translate(-50%, -50%); pointer-events: none; }
+    .clue-token[data-clue="camera"] { width: 58px; background-image: none; }
+    .clue-token[data-clue="camera"]:hover { outline: 2px solid #fff4cf; outline-offset: -4px; }
+    .clue-token[data-clue="fiber"] { background-image: none; }
+    .clue-token[data-clue="fiber"]:hover { outline: 2px solid #fff4cf; outline-offset: -4px; }
+    .fingerprint-site { position: absolute; left: 53.6%; top: 39.5%; z-index: 1; }
+    .fingerprint-site .clue-token { left: 0; top: 0; background: none; }
+    .fingerprint-site .clue-token:hover { outline: 2px solid #fff4cf; outline-offset: -4px; }
+    .fingerprint-mark, .clue-ghost[data-clue="fingerprint"]::before {
+      position: absolute; left: 50%; top: 50%; width: 24px; aspect-ratio: 4 / 5; content: "";
+      transform: translate(-50%, -50%) rotate(-21deg);
+      background: url("fingerprint-pen.png") center / contain no-repeat;
+      pointer-events: none;
+    }
+    .fingerprint-site .clue-token[hidden] + .fingerprint-mark { display: none; }
+    .clue-ghost[data-clue="fingerprint"] { background: none; }
+    .clue-token[data-clue="print"] { width: 155px; aspect-ratio: 133 / 106; background-image: none; }
+    .clue-token[data-clue="print"]:hover { outline: 2px solid #fff4cf; outline-offset: -4px; }
+    .clue-token:is([data-clue="cup"], [data-clue="stationery"], [data-clue="cushion"], [data-clue="plant"], [data-clue="book"], [data-clue="picture"]) { background-image: none; }
+    .clue-token:is([data-clue="cup"], [data-clue="stationery"], [data-clue="cushion"], [data-clue="plant"], [data-clue="book"], [data-clue="picture"]):hover { outline: 2px solid #fff4cf; outline-offset: -4px; }
+    .clue-token[data-clue="picture"] { width: 128px; aspect-ratio: 4 / 3; }
+    .clue-token[data-clue="plant"] { width: 136px; aspect-ratio: 4 / 5; }
+    .clue-token[data-clue="cushion"] { width: 132px; }
+    .clue-ghost:is([data-clue="cup"], [data-clue="stationery"]) {
+      background: url("nahee-room-exploration.png") no-repeat var(--crop-x) var(--crop-y) / 1280% 853.333%;
+      border-radius: .55rem;
+    }
+    .clue-ghost[data-clue="cup"] { --crop-x: 24%; --crop-y: 73.7%; }
+    .clue-ghost[data-clue="stationery"] { --crop-x: 75.5%; --crop-y: 36.6%; }
+    .clue-ghost[data-clue="picture"] {
+      background: url("nahee-room-fabric.png") no-repeat 37.5% 80.3% / 1097.14% 731.43%;
+      clip-path: polygon(6% 35%, 75% 15%, 95% 62%, 24% 87%);
+    }
+    .clue-ghost[data-clue="print"] {
+      aspect-ratio: 133 / 106;
+      background: url("footprint-trail-clue.png") center / contain no-repeat;
+      clip-path: polygon(4% 91%, 14% 64%, 31% 43%, 54% 31%, 70% 14%, 91% 7%, 96% 27%, 77% 51%, 57% 60%, 34% 85%, 13% 97%);
+    }
+    .clue-ghost[data-clue="camera"] {
+      background: url("surveillance-camera-clue.png") center / contain no-repeat;
+      clip-path: polygon(25% 16%, 70% 13%, 87% 25%, 88% 67%, 72% 79%, 70% 96%, 53% 96%, 52% 83%, 26% 82%, 18% 68%, 18% 33%);
+    }
+    .room-status { min-height: 1.5em; }
+    .camera-game {
+      width: min(94vw, 66rem); max-width: none; max-height: 92svh;
+      padding: clamp(.75rem, 2vw, 1.4rem); overflow: auto;
+      border: 1px solid #886c50; border-radius: .9rem; background: #211a16; color: #fff2dc;
+    }
+    .camera-game::backdrop { background: rgb(0 0 0 / .7); }
+    .camera-heading { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-bottom: .75rem; }
+    .camera-heading h2 { font-size: clamp(1.25rem, 4vw, 2rem); }
+    .camera-layout { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr); gap: clamp(.5rem, 2vw, 1.25rem); align-items: start; }
+    .camera-recordings, .camera-analysis { display: grid; min-width: 0; gap: .65rem; }
+    .camera-analysis { position: relative; align-self: stretch; place-items: center; text-align: center; }
+    .camera-preview { position: relative; width: min(100%, 43svh); justify-self: center; }
+    .camera-portrait { position: relative; width: min(100%, 14rem); }
+    .camera-timeline { display: grid; gap: .2rem; font-size: .9rem; }
+    .camera-timeline input { width: 100%; margin: 0; accent-color: #e9b36b; }
+    .camera-frame {
+      position: relative; display: block; width: 100%; aspect-ratio: 1;
+      border: 1px solid #b08863; background: #50372b var(--cam-image, url("homecam-camera-view.png")) no-repeat var(--cam-x, 0%) var(--cam-y, 0%) / var(--cam-size, 300% 400%);
+    }
+    .camera-frame, .camera-clip { touch-action: none; cursor: grab; }
+    .camera-frame[aria-pressed="true"], .camera-clip[aria-pressed="true"] { outline: 2px solid #f2c983; }
+    .camera-audio { display: grid; gap: .45rem; }
+    .camera-audio button, .camera-heading button, .camera-guide button { min-height: 2.3rem; padding: .32rem .55rem; font-size: .82rem; }
+    .camera-clip {
+      width: 100%; justify-content: space-between; gap: .4rem;
+      background: #5b4432; border-color: #957150;
+    }
+    .camera-wave {
+      flex: 1; height: 1.15rem;
+      background: repeating-linear-gradient(90deg, #e7b872 0 2px, transparent 2px 6px);
+      mask-image: repeating-linear-gradient(var(--wave-angle, 110deg), transparent 0 9%, #000 12% 34%, transparent 42% 53%, #000 63% 80%, transparent 88% 100%);
+    }
+    .camera-transcript { margin: 0; font-size: .84rem; color: #f8d7a8; }
+    .camera-learner {
+      position: relative; width: 100%; padding: 0;
+      background: transparent; border: 2px solid transparent;
+    }
+    .camera-learner img { display: block; width: 100%; pointer-events: none; }
+    .camera-learner .camera-pose { position: absolute; inset: 0; visibility: hidden; }
+    .camera-learner[data-state="thinking"] .camera-neutral { visibility: hidden; }
+    .camera-learner[data-state="thinking"] .camera-thinking { visibility: visible; }
+    .camera-learner[data-state="wrong"] .camera-neutral { clip-path: inset(51% 0 0); }
+    .camera-learner[data-state="wrong"] .camera-shake {
+      visibility: visible; clip-path: inset(0 0 47%); transform-origin: 50% 51%;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .camera-learner[data-state="wrong"] .camera-shake { animation: detective-shake .58s ease-in-out; }
+      .camera-learner[data-state="correct"] .camera-neutral { animation: camera-celebrate .55s ease-out; }
+      @keyframes camera-celebrate {
+        0%, 100% { transform: translateY(0); }
+        42% { transform: translateY(-6%); }
+      }
+    }
+    .camera-learner span {
+      position: absolute; left: 36%; top: 30%; width: 40%; height: 15%; display: none; place-items: center;
+      border-radius: 42%; background: #302720; color: #a9efbb; font-size: clamp(.63rem, 2vw, 1.15rem);
+      white-space: nowrap;
+    }
+    .camera-learner[data-state="learning"] span { display: grid; }
+    .camera-learner[data-ready="true"], .camera-learner[data-over="true"] { border-color: #f2c983; }
+    .camera-progress, .camera-reply { margin: 0; text-align: center; font-size: .9rem; }
+    .camera-progress { position: absolute; inset: 0 0 auto; }
+    .camera-reply { position: absolute; z-index: 1; inset: auto .2rem 5%; pointer-events: none; }
+    .camera-preview .camera-guide {
+      position: absolute; z-index: 1; inset: auto .3rem .3rem;
+      margin: 0; flex-wrap: wrap; box-shadow: 0 .15rem .4rem #211a1680;
+    }
+    .camera-reply:not(:empty), .camera-guide { padding: .55rem; border-radius: .45rem; background: #f8e7c7; color: #39271b; }
+    .camera-guide p { margin: 0 0 .4rem; font-size: .9rem; }
+    .camera-game[data-guide="0"] .camera-timeline,
+    .camera-game[data-guide="1"] .camera-frame,
+    .camera-game[data-guide="2"] .camera-audio,
+    .camera-game[data-guide="3"] .camera-learner { outline: 2px solid #f2c983; outline-offset: 3px; border-radius: .35rem; }
+    .camera-game[data-guide="3"] .camera-learner::before,
+    .camera-game[data-guide="3"] .camera-learner::after {
+      position: absolute; z-index: 1; left: 44%; width: 28%; aspect-ratio: 1; content: "";
+      border: 1px solid #e9b36b; border-radius: .25rem; pointer-events: none;
+    }
+    .camera-game[data-guide="3"] .camera-learner::before {
+      top: 27%;
+      background: #50372b var(--cam-image, url("homecam-camera-view.png")) no-repeat var(--cam-x) var(--cam-y) / var(--cam-size, 300% 400%);
+    }
+    .camera-game[data-guide="3"] .camera-learner::after {
+      top: 51%; aspect-ratio: 2 / 1;
+      background: repeating-linear-gradient(90deg, #5b4432 0 4px, #e7b872 4px 6px);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .camera-game[data-guide="3"] .camera-learner::before,
+      .camera-game[data-guide="3"] .camera-learner::after { animation: camera-demo 1.1s ease-in both; }
+      @keyframes camera-demo {
+        from { transform: translateX(-420%); opacity: 1; }
+        to { transform: translate(0, -25%) scale(.28); opacity: 0; }
+      }
+    }
+    .camera-ghost {
+      position: fixed; z-index: 2; width: 5rem; aspect-ratio: 4 / 3;
+      transform: translate(-50%, -50%); pointer-events: none; border: 1px solid #e9b36b; border-radius: .4rem;
+      background: #5b4432; display: grid; place-items: center; color: #fff2dc; font-size: .8rem;
+    }
+    .camera-ghost[data-kind="image"] {
+      aspect-ratio: 1; background: #50372b var(--cam-image, url("homecam-camera-view.png")) no-repeat var(--cam-x) var(--cam-y) / var(--cam-size, 300% 400%);
+    }
+    .camera-game [data-departure] { --cam-image: url("homecam-masked-storybook.png"); --cam-size: 100% 100%; }
+    .camera-frame[data-footprints]::after, .camera-ghost[data-kind="image"][data-footprints]::after {
+      position: absolute; left: 37%; top: 60%; width: 39%; aspect-ratio: 1.45; content: "";
+      background: url("homecam-footprints.png") center / 100% 100% no-repeat;
+      opacity: .88; pointer-events: none;
+    }
+    .camera-frame[data-footprints="partial"]::after, .camera-ghost[data-kind="image"][data-footprints="partial"]::after {
+      clip-path: inset(0 32% 0 0);
+    }
+    .suspects-toggle {
+      position: absolute; right: 0; top: 49%; padding: .6rem .8rem; border-radius: .65rem 0 0 .65rem;
+      background: #39271b; color: #fff4cf;
+    }
+    .suspects-toggle svg { width: 1rem; height: 1rem; }
+    .suspect-board {
+      width: min(95vw, 66rem); max-width: none; height: min(92svh, 49rem); max-height: none;
+      padding: .38rem; overflow: hidden; border: 2px solid #4e3022; border-radius: .9rem; color: #39271b;
+      background: #76503a url("detective-paper.png") center / 22rem auto; background-blend-mode: multiply;
+      box-shadow: 0 .45rem 1.5rem #29180f87;
+    }
+    .suspect-board::backdrop { background: #271a14a8; }
+    .board-shell {
+      display: grid; grid-template-rows: auto minmax(0, 1fr); height: 100%; overflow: hidden;
+      border: 1px solid #c49e70; border-radius: .52rem;
+      background: #f8edcf url("detective-paper.png") center / 25rem auto; background-blend-mode: multiply;
+      box-shadow: 0 2px #d9bb8d, 0 4px #b29067;
+    }
+    .board-heading { display: flex; justify-content: space-between; align-items: center; gap: .6rem; padding: .7rem 1rem; border-bottom: 1px solid #b9946b; }
+    .board-heading h2 { font-size: clamp(1.25rem, 4vw, 2rem); }
+    .board-body { display: grid; grid-template-columns: minmax(7rem, 24%) minmax(0, 1fr); min-height: 0; }
+    .board-detective {
+      padding: .65rem; display: grid; align-content: center; justify-items: center; gap: .5rem; text-align: center;
+      background: linear-gradient(90deg, transparent 80%, #7f583426);
+    }
+    .board-detective img { width: min(100%, 11rem); max-height: 41svh; object-fit: contain; }
+    .board-detective p { margin: 0; padding: .35rem .5rem; border: 1px solid #9a704d; border-radius: .75rem; background: #fff8e6; font-weight: 800; }
+    .board-scroll {
+      overflow: auto; overscroll-behavior: contain; padding: .7rem; border-left: 2px solid #ad875c;
+      background: repeating-linear-gradient(0deg, transparent 0 1.45rem, #9d76512b 1.45rem calc(1.45rem + 1px));
+      box-shadow: inset .5rem 0 .7rem -.65rem #795034;
+    }
+    .board-summary { margin: 0 0 .65rem; font-size: .88rem; }
+    .board-findings { margin: 0 0 .65rem; color: #63462e; font-size: .8rem; }
+    .suspects { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(.28rem, 1vw, .75rem); }
+    .suspect {
+      position: relative; min-width: 0; padding: .42rem .42rem .68rem;
+      border: 1px solid #d1b999; border-radius: .12rem; background: #fffcf1;
+      box-shadow: 0 .15rem .28rem #78523548;
+    }
+    .suspect-portrait {
+      position: relative; aspect-ratio: 9 / 8; box-shadow: inset 0 0 0 1px #5b3b263a;
+    }
+    .suspect-portrait::before {
+      position: absolute; inset: 0; content: "";
+      background: #e5c79e url("suspect-portraits.png") no-repeat var(--portrait-x) var(--portrait-y) / 400% 300%;
+      filter: sepia(.18) saturate(.79) contrast(.92);
+    }
+    .suspect[data-match="true"] .suspect-portrait::after {
+      position: absolute; inset: 2%; border: clamp(2px, .45vw, 5px) solid #b82122; border-radius: 50%; content: "";
+    }
+    .suspect h3 { margin: .3rem 0; font-size: .95rem; }
+    .suspect p { margin: .1rem 0; font-size: .77rem; overflow-wrap: anywhere; }
+    .suspect .match-count { color: #922522; font-weight: 800; }
+    .suspect-pick { position: absolute; inset: 0; width: 100%; border: 0; background: transparent; }
+    .suspect-pick:hover { box-shadow: inset 0 0 0 2px #9b3a26; }
+    .camera-game {
+      width: min(96vw, 64rem); max-width: none; max-height: 94svh; overflow: auto;
+      padding: clamp(.65rem, 2vw, 1.35rem); border: 1px solid #c49e70; border-radius: .85rem;
+      background: #2b211bf5; color: #fff4d8;
+    }
+    .camera-game::backdrop { background: rgb(0 0 0 / .30); }
+    .camera-heading { display: flex; justify-content: space-between; align-items: center; gap: .5rem; margin-bottom: .7rem; }
+    .camera-heading h2 { font-size: clamp(1.25rem, 4vw, 2rem); }
+    .camera-grid { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: clamp(.4rem, 2vw, 1.15rem); }
+    .camera-recording, .camera-learning { display: grid; align-content: start; gap: .55rem; min-width: 0; }
+    .camera-game input { display: block; width: 100%; margin: .2rem 0; accent-color: #edb76d; }
+    .camera-timeline label, .camera-audio h3 { font-size: .88rem; }
+    .camera-still {
+      display: block; width: 100%; aspect-ratio: 5 / 3; padding: 0; touch-action: none; cursor: grab;
+      background: #61412f url("home-camera-frames.png") no-repeat var(--camera-x, 0%) var(--camera-y, 0%) / 200% 500%;
+    }
+    .camera-audio-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .25rem; margin: .3rem 0; }
+    .camera-audio-grid button { min-width: 0; min-height: 2rem; padding: .12rem; touch-action: none; cursor: grab; }
+    .camera-audio-grid button[aria-current="true"] { background: #f6e1ac; color: #39271b; border-color: #fff1bf; }
+    .camera-game button[aria-pressed="true"] { outline: 2px solid #f6c773; outline-offset: 2px; }
+    .camera-caption, .camera-feedback { margin: 0; font-size: .85rem; overflow-wrap: anywhere; }
+    .camera-caption { min-height: 2.5em; }
+    .camera-learning { align-content: center; text-align: center; }
+    .camera-robot {
+      position: relative; display: block; width: min(100%, 13rem); margin: 0 auto;
+      padding: 0; border: 1px dashed #e3b779; border-radius: .7rem; background: #413126;
+    }
+    .camera-robot img { display: block; width: 100%; pointer-events: none; }
+    .camera-robot-face {
+      position: absolute; top: 27%; left: 36%; width: 38%; height: 19%;
+      display: grid; place-items: center; border-radius: 25%; background: #2e2521; color: #aaf5c3;
+      font-size: clamp(.6rem, 2vw, 1.2rem); white-space: nowrap; transform: rotate(-8deg); pointer-events: none;
+    }
+    .camera-robot.is-over { box-shadow: 0 0 0 3px #f6c773; }
+    .camera-feedback { min-height: 3em; }
+    .camera-guide {
+      display: flex; align-items: center; justify-content: space-between; gap: .55rem; margin-top: .7rem;
+      padding: .45rem .6rem; border-radius: .45rem; background: #fff2cf; color: #39271b;
+    }
+    .camera-guide p { margin: 0; }
+    .camera-game[data-guide="timeline"] .camera-timeline,
+    .camera-game[data-guide="video"] .camera-still,
+    .camera-game[data-guide="audio"] .camera-audio {
+      outline: 2px solid #f6c773; outline-offset: 3px; border-radius: .35rem;
+    }
+    .camera-drag-ghost {
+      position: fixed; z-index: 5; pointer-events: none; transform: translate(-50%, -50%);
+      margin: 0; box-shadow: 0 .3rem .8rem #0008;
+    }
+    .camera-drag-ghost.camera-still { width: clamp(4rem, 15vw, 8rem); min-height: 0; }
+    footer { margin-top: .9rem; color: var(--muted); font-size: .8rem; }
+    @media (max-width: 45rem) {
+      .nahee-dialogue { padding: .65rem .7rem; font-size: .88rem; }
+      .nahee-dialogue button { padding-inline: .55rem; }
+      .title-action { padding: 1.5rem max(.75rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) .75rem; }
+      .title-action p { font-size: 1.209rem; }
+      .title-action button { padding-inline: min(3.003rem, 8vw); }
+      .board-body { grid-template-columns: minmax(4.25rem, 18%) minmax(0, 1fr); }
+      .board-detective, .board-scroll { padding: .35rem; }
+      .board-detective p, .suspect p { font-size: .69rem; }
+      .suspect { padding: .25rem; }
+    }
+  </style>
+</head>
+<body class="title-open">
+  <header class="masthead">
+    <div class="wrap">
+      <span class="brand">탐정, 미스터 아이</span>
+      <span class="stamp">CASE FILE 001</span>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <nav class="case-progress" aria-label="게임 진행 단계">
+      <ol class="progress">
+        <li data-step="intro" aria-current="step">01 시작</li>
+        <li data-step="incident">02 사건 발생</li>
+        <li data-step="game">03 수사</li>
+        <li data-step="result">04 사건 해결</li>
+      </ol>
+    </nav>
+
+    <section id="intro" class="hero" aria-labelledby="intro-title">
+      <audio id="title-bgm" src="title_bgm.mp3" autoplay loop preload="auto"></audio>
+      <div class="title-scene">
+        <img class="hero-art" src="title-office.png" width="1536" height="1024" alt="미스터 아이가 책상 위 단서를 돋보기로 살피는 동안, 민철이 증거를 한아름 안고 탐정 사무소에 들어온다.">
+        <div class="title-logo">
+          <p class="eyebrow">학습형 AI 탐정</p>
+          <h1 id="intro-title" tabindex="-1"><span>탐정,</span> 미스터 아이</h1>
+        </div>
+      </div>
+      <div class="title-action">
+        <p class="title-subtitle">보고 들은 단서를 AI에 학습시키고, 범인을 찾아보세요!</p>
+        <button id="start" type="button">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+            <circle cx="10" cy="10" r="5.5"/>
+            <path d="m14 14 5 5"/>
+          </svg>
+          게임 시작
+        </button>
+        <noscript><p>게임을 진행하려면 브라우저에서 JavaScript를 켜 주세요.</p></noscript>
+      </div>
+    </section>
+
+    <section id="incident" class="comic-screen" aria-labelledby="incident-title" hidden>
+      <div class="comic-heading">
+        <h2 id="incident-title" tabindex="-1">02 사건 발생</h2>
+        <p id="comic-count" class="comic-count"></p>
+      </div>
+      <figure class="comic-frame">
+        <div id="comic-art" class="comic-art" role="img">
+          <div id="comic-memory" class="comic-memory" hidden aria-hidden="true">
+            <div class="comic-memory-spot"><img src="rabbit-plush.png" alt=""></div>
+          </div>
+        </div>
+        <figcaption id="comic-caption" class="comic-caption" aria-live="polite" aria-atomic="true">
+          <strong id="comic-speaker"></strong>
+          <p id="comic-line"></p>
+        </figcaption>
+      </figure>
+      <div id="comic-controls" class="comic-controls">
+        <div class="comic-legend">
+          <button id="comic-next" type="button">
+            <svg width="16" height="20" viewBox="0 0 16 20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+              <rect x="2" y="1" width="12" height="18" rx="5"/><path d="M2 8h12M8 1v7"/><path d="M4 6h2V3L4 4z" fill="currentColor" stroke="none"/>
+            </svg>
+            컷 넘기기
+          </button>
+          <span aria-hidden="true">/</span>
+          <button id="comic-skip" type="button" aria-keyshortcuts="Space">
+            <svg width="26" height="16" viewBox="0 0 26 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+              <rect x="1" y="2" width="24" height="12" rx="2.5"/><path d="M6 7v3h14V7"/>
+            </svg>
+            이야기 건너뛰기 <small>2초</small>
+          </button>
+        </div>
+        <div id="skip-meter" class="skip-meter" aria-hidden="true"></div>
+      </div>
+      <button id="comic-pause" class="comic-pause" type="button">자동 진행 일시 정지</button>
+      <a id="comic-course-link" class="button comic-course-link" href="https://www.kmooc.kr/view/course/detail/17956" target="_blank" rel="noopener" hidden>멀티모달 인공지능의 이해와 학습</a>
+      <button id="restart" class="comic-pause" type="button" hidden>처음으로</button>
+    </section>
+
+    <section id="game" class="panel" aria-labelledby="game-title" hidden>
+      <div id="house-view" class="house-scene">
+        <div id="room-viewport" class="room-viewport">
+          <div id="room-world" class="room-world">
+            <img class="house-map" src="nahee-room-fabric.png" width="1536" height="1024" draggable="false" alt="위에서 내려다본 나희의 집. 어질러진 거실, 책이 흩어진 공부방, 신발 자국이 남은 현관이 이어져 있다.">
+            <button class="clue-token" type="button" data-clue="fiber" aria-label="천 조각" aria-pressed="false" style="--x:17%;--y:43.6%"></button>
+            <button class="clue-token" type="button" data-clue="camera" aria-label="현관 감시 카메라 영상" aria-pressed="false" style="--x:96.6%;--y:53.6%"></button>
+            <button class="clue-token" type="button" data-clue="print" aria-label="신발 자국" aria-pressed="false" style="--x:82.3%;--y:77%"></button>
+            <button class="clue-token" type="button" data-clue="cushion" aria-label="소파 쿠션" aria-pressed="false" style="--x:28%;--y:39%"></button>
+            <button class="clue-token" type="button" data-clue="book" aria-label="동화책" aria-pressed="false" style="--x:80.4%;--y:39.1%"></button>
+            <button class="clue-token" type="button" data-clue="plant" aria-label="화분" aria-pressed="false" style="--x:50%;--y:85.3%"></button>
+            <button class="clue-token" type="button" data-clue="cup" aria-label="넘어진 컵" aria-pressed="false" style="--x:26%;--y:71%"></button>
+            <button class="clue-token" type="button" data-clue="stationery" aria-label="문구 상자" aria-pressed="false" style="--x:73.5%;--y:38%"></button>
+            <button class="clue-token" type="button" data-clue="picture" aria-label="풍경 액자" aria-pressed="false" style="--x:38.6%;--y:76.2%"></button>
+            <div class="fingerprint-site">
+              <button class="clue-token" type="button" data-clue="fingerprint" aria-label="나무 수납장에 남은 지문" aria-pressed="false"></button>
+              <span class="fingerprint-mark" aria-hidden="true"></span>
+            </div>
+          </div>
+        </div>
+        <div class="house-heading">
+          <div class="house-heading-title">
+            <p class="eyebrow">03 수사</p>
+            <h2 id="game-title" tabindex="-1">나희의 방</h2>
+          </div>
+          <div class="house-heading-help">
+            <p class="muted">화면을 누른 채 끌어 둘러보세요. 휠 아래로 확대, 위로 축소</p>
+            <p id="room-status" class="muted room-status" role="status"></p>
+          </div>
+        </div>
+        <button id="talk-to-nahee" class="nahee-hotspot" type="button" aria-label="나희에게 말 걸기" aria-controls="nahee-dialogue" aria-expanded="false">
+          <span class="nahee-portrait"><img src="nahee-standing.png" alt=""></span>
+          <span class="nahee-name" aria-hidden="true">나희</span>
+        </button>
+        <div id="nahee-dialogue" class="nahee-dialogue" hidden>
+          <h3 id="nahee-speaker" tabindex="-1" aria-describedby="nahee-line">나희</h3>
+          <p id="nahee-line">훌쩍… 집을 비운 사이에 누가 들어왔나 봐요. 소파 위에 둔 토끼 인형이 사라졌어요. 제가 정말 아끼는 인형이에요.</p>
+          <button id="close-nahee" type="button">대화 닫기</button>
+        </div>
+        <button id="detective-target" class="detective-target" type="button" aria-label="미스터 아이에게 선택한 단서 건네기">
+          <span class="detective-sprite">
+            <img class="standing-sprite" src="mr-eye-standing.png" alt="">
+            <img class="reaction-sprite insight-sprite" src="mr-eye-insight.png" alt="">
+            <img class="reaction-sprite shake-head" src="mr-eye-shake.png" alt="">
+          </span>
+          <span class="detective-name">미스터 아이</span>
+        </button>
+        <p id="detective-reply" class="detective-reply" role="status" aria-atomic="true"></p>
+        <button id="open-suspects" class="suspects-toggle" type="button" aria-label="용의자 목록 열기" aria-haspopup="dialog">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m10 3-5 5 5 5"/></svg>
+        </button>
+        <span id="clue-ghost" class="clue-ghost" aria-hidden="true" hidden></span>
+      </div>
+      <dialog id="camera-game" class="camera-game" aria-labelledby="camera-title">
+        <header class="camera-heading">
+          <h2 id="camera-title">홈캠 기록 분석</h2>
+          <button id="camera-close" type="button" aria-label="홈캠 분석 닫기">×</button>
+        </header>
+        <div class="camera-layout">
+          <div class="camera-recordings">
+            <label class="camera-timeline" for="camera-time">
+              <span>녹화 시간 <output id="camera-time-label" for="camera-time"></output></span>
+              <input id="camera-time" type="range" min="0" max="9" step="1" value="0">
+            </label>
+            <div class="camera-preview">
+              <button id="camera-frame" class="camera-frame" type="button" aria-pressed="false"></button>
+              <div id="camera-guide" class="camera-guide">
+                <p id="camera-guide-line" aria-live="polite"></p>
+                <button id="camera-guide-next" type="button">다음</button>
+              </div>
+            </div>
+            <div class="camera-audio">
+              <button id="camera-clip" class="camera-clip" type="button" aria-pressed="false" aria-describedby="camera-transcript"><span id="camera-clip-label"></span><span class="camera-wave" aria-hidden="true"></span></button>
+              <p id="camera-transcript" class="camera-transcript"></p>
+            </div>
+          </div>
+          <div class="camera-analysis">
+            <p id="camera-progress" class="camera-progress"></p>
+            <div class="camera-portrait">
+              <button id="camera-learner" class="camera-learner" type="button" aria-label="미스터 아이에게 선택한 데이터 건네기">
+                <img class="camera-neutral" src="mr-eye-standing.png" alt="">
+                <img class="camera-pose camera-thinking" src="mr-eye-insight.png" alt="">
+                <img class="camera-pose camera-shake" src="mr-eye-shake.png" alt="">
+                <span>학습 중</span>
+              </button>
+              <p id="camera-reply" class="camera-reply" role="status"></p>
+            </div>
+          </div>
+        </div>
+        <span id="camera-ghost" class="camera-ghost" aria-hidden="true" hidden></span>
+      </dialog>
+      <dialog id="suspect-board" class="suspect-board" aria-labelledby="board-title">
+        <div class="board-shell">
+          <header class="board-heading">
+            <h2 id="board-title">용의자 목록</h2>
+            <button id="close-suspects" class="secondary" type="button" aria-label="용의자 목록 닫기" autofocus>×</button>
+          </header>
+          <div class="board-body">
+            <div class="board-detective"><p id="board-reply" role="status">누구일까...?</p><img src="mr-eye-standing.png" alt="미스터 아이"></div>
+            <div class="board-scroll" tabindex="0" aria-label="용의자 명단">
+              <p id="board-summary" class="board-summary"></p>
+              <p id="board-findings" class="board-findings" hidden></p>
+              <div id="suspects" class="suspects"></div>
+            </div>
+          </div>
+        </div>
+      </dialog>
+    </section>
+
+    <section id="result" class="result-screen" aria-labelledby="result-title" hidden>
+      <h2 id="result-title" class="result-title" tabindex="-1">수사 결과</h2>
+      <img id="result-detective" class="result-detective" src="mr-eye-insight.png" alt="턱을 괴고 고민하는 미스터 아이">
+      <img id="result-art" class="result-art" src="comic-fhd/result-accusation.jpg" width="1920" height="1080" alt="집 밖에서 미스터 아이의 등 바로 뒤로 본 장면. 미스터 아이는 입을 0 모양으로 벌린 옆얼굴을 보이며 왼손으로 도윤을 가리킨다. 스피드선은 손사래를 치는 도윤을 향한다." hidden>
+      <p id="result-line" class="result-line" role="status" aria-atomic="true"></p>
+      <button id="show-course" class="result-continue" type="button" hidden>다음</button>
+    </section>
+
+    <footer>게임 프로토타입 · AI 수사 도우미는 입력한 단서를 미리 준비된 기록과 비교합니다.</footer>
+  </main>
+
+  <template id="suspect-card">
+    <article class="suspect">
+      <div class="suspect-portrait" aria-hidden="true"></div>
+      <h3></h3>
+      <p class="profile-stats"></p>
+      <p class="profile-mask"></p>
+      <p class="match-count"></p>
+      <button class="suspect-pick" type="button"></button>
+    </article>
+  </template>
+
+  <script>
+    // 사건 데이터와 수강 신청 설정
+    const caseFile = {
+      clues: {
+        fiber: { result: "소파에 남은 천은 남색 복면의 섬유와 일치해요.", matches: (suspect) => suspect.navyMask },
+        camera: { result: "현관 영상 속 복면을 쓴 사람의 키는 170~179cm로 보여요.", matches: (suspect) => suspect.height >= 170 && suspect.height <= 179 },
+        print: { result: "이 발자국은 260mm 신발이 남겼군요.", matches: (suspect) => suspect.shoe === 260 },
+        fingerprint: { result: "수납장에 소용돌이형 지문이 남아 있어요. 용의자 기록과 비교해 볼게요.", matches: (suspect) => suspect.whorlPrint },
+        cushion: { result: "쿠션은 평소 쓰던 물건이에요. 이번 사건과는 관계가 없군요." },
+        book: { result: "이건 나희가 읽던 동화책이에요. 범인의 흔적은 없어요." },
+        plant: { result: "화분은 늘 여기에 있었대요. 이번 사건과는 관계없어요." },
+        cup: { result: "쏟아진 차는 벌써 말랐군요. 인형을 찾는 데 도움이 될 흔적은 없어요." },
+        stationery: { result: "나희가 쓰는 문구 상자군요. 인형이 사라진 일과는 관계없어요." },
+        picture: { result: "평범한 풍경 그림이군요. 토끼 인형을 찾는 데 도움이 될 흔적은 없어요." }
+      },
+      suspects: [
+        ["서윤", 168, 57, 260, false], ["지우", 169, 54, 245, true],
+        ["도윤", 175, 66, 260, true], ["하린", 162, 51, 240, false],
+        ["민재", 178, 70, 260, false], ["유나", 173, 59, 250, true],
+        ["현우", 172, 63, 260, true], ["수빈", 166, 53, 235, false],
+        ["준서", 181, 74, 260, true], ["채원", 171, 58, 245, false],
+        ["태호", 174, 67, 260, false], ["다은", 165, 52, 240, true]
+      ],
+      whorlPrintNames: ["지우", "도윤", "유나", "태호"]
+    };
+
+    // 화면 전환과 수사 진행
+    const byId = (id) => document.getElementById(id);
+    const steps = [...document.querySelectorAll("[data-step]")];
+
+    const incidentPanels = [
+      { speaker: "사무소의 오후", line: "미스터 아이는 따뜻한 차를 마시며 한가로운 오후를 보내고 있었어요.", art: "미스터 아이가 탐정 사무소 의자에 기대어 찻잔을 들고 있다.", duration: 5000, sound: "incident_chirp.mp3" },
+      { speaker: "민철", line: "탐정님!", art: "민철이 사무소 문을 급히 밀치고 들어온다.", duration: 3500, sound: "incident_door_burst.mp3" },
+      { speaker: "미스터 아이", line: "무슨 일이시죠?", art: "미스터 아이가 의자에서 벌떡 일어나 민철을 바라본다.", duration: 4000 },
+      { speaker: "민철", line: "나희의 집에 강도가 들은 것 같아요!", art: "민철이 미스터 아이에게 열린 현관문 사진을 보여준다.", duration: 5500 },
+      { speaker: "미스터 아이", line: "…!", art: "미스터 아이가 서둘러 탐정 코트를 입고 모자를 챙긴다.", duration: 3500, sound: "incident_coat_swish.mp3" },
+      { speaker: "미스터 아이", line: "가시죠!", art: "사무소 입구가 멀리 보이는 길에서 미스터 아이가 질주한다. 손을 잡은 민철은 속도에 몸이 공중으로 들려 어지러워한다.", duration: 4000, sound: "incident_dash.mp3" }
+    ];
+    const investigationPanels = [
+      { speaker: "나희의 집", line: "어질러진 집 한가운데 나희가 주저앉아 울고 있었어요.", art: "서랍이 열린 가구와 흩어진 물건들 사이에서 나희가 주저앉아 눈물을 흘린다.", duration: 5000, sound: "investigation_sobbing.mp3" },
+      { speaker: "민철", line: "저희가 왔어요!", art: "문이 열리고 미스터 아이와 민철이 나희의 집으로 들어온다.", duration: 4000, sound: "investigation_door_open.mp3" },
+      { speaker: "미스터 아이", line: "무슨 일이 있었나요?", art: "미스터 아이와 민철이 바닥에 주저앉아 엉엉 우는 나희에게 다가간다.", duration: 4500, sound: "investigation_footsteps.mp3" },
+      { speaker: "나희", line: "제 소중한 토끼 인형을 누군가 훔쳐갔어요!", art: "주저앉아 우는 나희의 오른쪽 아래에 한쪽 귀를 꿰맨 토끼 인형의 모습이 보인다.", duration: 6000, rabbit: true, sound: "investigation_rabbit_memory.mp3" },
+      { speaker: "미스터 아이", line: "흐음...", art: "미스터 아이가 흩어진 물건을 살피는 동안 민철은 나희 곁에 앉아 달랜다.", duration: 5000, sound: "investigation_hmm.mp3" },
+      { speaker: "미스터 아이", line: "단서를 찾아보죠!", art: "미스터 아이가 비장한 표정으로 민철에게 단서를 찾자고 말한다.", duration: 4000, sound: "investigation_search_start.mp3" },
+      { speaker: "민철", line: "네! 단서를 모아보겠습니다!", art: "민철이 미스터 아이를 향해 씩씩하게 경례한다.", duration: 4500, sound: "investigation_salute.mp3" }
+    ];
+    const endingPanels = [
+      { speaker: "도윤", line: "죄송해요...! 제 여동생이 인형을 좋아해서 그만...", art: "도윤이 집 앞에 서서 눈물을 흘리며 사과한다.", duration: 5500 },
+      { speaker: "도윤", line: "정말 죄송해요... 인형 다시 돌려드릴게요", art: "훌쩍이는 도윤이 나희에게 토끼 인형을 돌려준다.", duration: 5500 },
+      { speaker: "미스터 아이", line: "오늘도 무사히 사건을 해결했네요.", art: "나희가 기뻐하며 토끼 인형을 끌어안고, 뒤에서 민철과 미스터 아이가 흐뭇하게 바라본다.", duration: 5000 },
+      { speaker: "민철", line: "탐정님은 어떻게 단서를 학습하시는 것만으로 범인을 찾으실 수 있으신가요?", art: "민철이 미스터 아이를 바라보며 궁금한 표정으로 질문한다.", duration: 7000 },
+      { speaker: "미스터 아이", line: "호오... 저 같은 인공지능이 어떻게 학습하는지 궁금하신가요?", art: "미스터 아이가 흥미로운 표정으로 민철에게 되묻는다.", duration: 6500 },
+      { speaker: "미스터 아이", line: "이 곳에서 확인해보시죠!", art: "미스터 아이가 아래쪽의 강좌 버튼을 가리키고 민철이 깜짝 놀란다." }
+    ];
+    const comicSounds = new Map();
+    for (const panel of [...incidentPanels, ...investigationPanels, ...endingPanels]) {
+      if (panel.sound && !comicSounds.has(panel.sound)) comicSounds.set(panel.sound, new Audio(panel.sound));
+    }
+    let activeComicSound;
+    let comicPanels = incidentPanels;
+    let comicIndex = 0;
+    let comicPaused = false;
+    let comicTimer;
+    let skipTimer;
+
+    function clearSkipHold() {
+      clearTimeout(skipTimer);
+      skipTimer = undefined;
+      byId("skip-meter").classList.remove("holding");
+    }
+
+    function scheduleComic() {
+      const comicScreen = byId("incident");
+      if (comicScreen.hasAttribute("data-fading")) return;
+      clearTimeout(comicTimer);
+      if (comicScreen.hidden || comicPaused || document.hidden || skipTimer !== undefined) return;
+      const { duration } = comicPanels[comicIndex];
+      if (duration) comicTimer = setTimeout(advanceComic, duration);
+    }
+
+    function stopComicSound() {
+      if (!activeComicSound) return;
+      activeComicSound.pause();
+      activeComicSound.currentTime = 0;
+      activeComicSound = undefined;
+    }
+
+    function renderComic() {
+      const panel = comicPanels[comicIndex];
+      stopComicSound();
+      activeComicSound = comicSounds.get(panel.sound);
+      if (activeComicSound) void activeComicSound.play().catch(() => {});
+      const art = byId("comic-art");
+      const caption = byId("comic-caption");
+      const chapter = byId("incident").dataset.chapter;
+      art.dataset.panel = comicIndex + 1;
+      art.style.setProperty("--comic-image", `url("comic-fhd/${chapter}-${comicIndex + 1}.jpg")`);
+      byId("comic-memory").hidden = !panel.rabbit;
+      caption.dataset.panel = comicIndex + 1;
+      caption.toggleAttribute("data-rabbit", Boolean(panel.rabbit));
+      art.setAttribute("aria-label", panel.art);
+      byId("comic-count").textContent = (comicIndex + 1) + " / " + comicPanels.length;
+      byId("comic-speaker").textContent = panel.speaker;
+      byId("comic-line").textContent = panel.line;
+      const coursePrompt = comicPanels === endingPanels && !panel.duration;
+      byId("comic-controls").hidden = coursePrompt;
+      byId("comic-pause").hidden = coursePrompt;
+      byId("comic-course-link").hidden = !coursePrompt;
+      byId("restart").hidden = !coursePrompt;
+      const nextLabel = comicPanels === investigationPanels && comicIndex === comicPanels.length - 1
+        ? "컷 넘기기 · 단서 입력 게임 시작" : "컷 넘기기";
+      byId("comic-next").setAttribute("aria-label", nextLabel);
+      scheduleComic();
+    }
+
+    function startComic(panels, chapter, title) {
+      comicPanels = panels;
+      comicIndex = 0;
+      comicPaused = false;
+      byId("incident").dataset.chapter = chapter;
+      byId("incident-title").textContent = title;
+      byId("comic-pause").textContent = "자동 진행 일시 정지";
+      showScreen("incident");
+      renderComic();
+    }
+
+    function advanceComic() {
+      const comicScreen = byId("incident");
+      if (comicScreen.hidden || comicScreen.hasAttribute("data-fading")) return;
+      if (comicIndex === comicPanels.length - 1) {
+        if (comicPanels === endingPanels) return;
+        if (comicPanels === investigationPanels) {
+          if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            startInvestigation();
+          } else {
+            clearTimeout(comicTimer);
+            comicScreen.setAttribute("data-fading", "");
+            comicTimer = setTimeout(startInvestigation, 500);
+          }
+        } else {
+          comicPanels = investigationPanels;
+          comicIndex = 0;
+          byId("incident").dataset.chapter = "investigation";
+          byId("incident-title").textContent = "03 수사";
+          renderComic();
+        }
+        return;
+      }
+      comicIndex += 1;
+      renderComic();
+    }
+
+    function skipComic() {
+      if (comicPanels !== endingPanels) {
+        startInvestigation();
+        return;
+      }
+      clearSkipHold();
+      comicIndex = endingPanels.length - 1;
+      renderComic();
+      byId("comic-course-link").focus();
+    }
+
+    function releaseSkip() {
+      if (skipTimer === undefined) return;
+      clearSkipHold();
+      scheduleComic();
+    }
+
+    let resultTimer;
+    const titleMusic = byId("title-bgm");
+    const titleScreen = byId("intro");
+    titleMusic.volume = .55;
+
+    function playTitleMusic() {
+      if (!titleScreen.hidden && titleMusic.paused) void titleMusic.play().catch(() => {});
+    }
+
+    titleScreen.addEventListener("click", playTitleMusic);
+    document.addEventListener("keydown", playTitleMusic);
+    playTitleMusic();
+
+    function showScreen(id) {
+      stopComicSound();
+      byId("incident").removeAttribute("data-fading");
+      if (id !== "intro") {
+        titleMusic.pause();
+        titleMusic.currentTime = 0;
+      }
+      clearTimeout(comicTimer);
+      clearSkipHold();
+      clearTimeout(resultTimer);
+      document.body.classList.toggle("title-open", id === "intro");
+      document.body.classList.toggle("comic-open", id === "incident");
+      document.body.classList.toggle("house-open", id === "game" && !byId("house-view").hidden);
+      document.body.classList.toggle("result-open", id === "result");
+      for (const step of steps) {
+        const active = step.dataset.step === id;
+        byId(step.dataset.step).hidden = !active;
+        if (active) step.setAttribute("aria-current", "step");
+        else step.removeAttribute("aria-current");
+      }
+      byId(id + "-title").focus();
+      if (id === "intro") playTitleMusic();
+    }
+
+    const suspectCards = caseFile.suspects.map(([name, height, weight, shoe, navyMask], index) => {
+      const suspect = { height, shoe, navyMask, whorlPrint: caseFile.whorlPrintNames.includes(name) };
+      const card = byId("suspect-card").content.firstElementChild.cloneNode(true);
+      const portrait = card.querySelector(".suspect-portrait");
+      portrait.style.setProperty("--portrait-x", (index % 4) * 100 / 3 + "%");
+      portrait.style.setProperty("--portrait-y", Math.floor(index / 4) * 50 + "%");
+      card.querySelector("h3").textContent = name;
+      card.querySelector(".profile-stats").textContent = height + "cm · " + weight + "kg · " + shoe + "mm";
+      card.querySelector(".profile-mask").textContent = (navyMask ? "남색 복면 있음" : "남색 복면 없음")
+        + " · " + (suspect.whorlPrint ? "소용돌이형 지문" : "고리형 지문");
+      const pick = card.querySelector(".suspect-pick");
+      pick.setAttribute("aria-label", name + " 지목하기");
+      pick.addEventListener("click", () => nominateSuspect(card));
+      byId("suspects").append(card);
+      return { suspect, card, count: card.querySelector(".match-count") };
+    });
+
+    const clueTokens = [...document.querySelectorAll("[data-clue]")];
+    const roomViewport = byId("room-viewport");
+    const roomScene = byId("house-view");
+    const roomWorld = byId("room-world");
+    const roomWidth = 1536;
+    const roomHeight = 1024;
+    let roomZoom = 1.2;
+    let roomScale = 1;
+    let roomX = 0;
+    let roomY = 0;
+    let roomPan = null;
+    const trainedClues = new Set();
+    const detective = byId("detective-target");
+    const suspectBoard = byId("suspect-board");
+    const clueTotal = Object.values(caseFile.clues).filter((clue) => clue.matches).length;
+    let selectedClue = null;
+    let drag = null;
+    let draggedToken = null;
+    let closingBoard = false;
+    let boardMotion;
+    let reactionTimer;
+
+    function updateSuspects() {
+      let candidates = 0;
+      for (const { suspect, card, count } of suspectCards) {
+        const matches = [...trainedClues].filter((id) => caseFile.clues[id].matches(suspect)).length;
+        const marked = trainedClues.size > 0 && matches === trainedClues.size;
+        card.dataset.match = String(marked);
+        count.textContent = trainedClues.size ? "일치 " + matches + "/" + trainedClues.size : "";
+        if (marked) candidates += 1;
+      }
+      byId("board-summary").textContent = trainedClues.size
+        ? "학습 단서 " + trainedClues.size + "/" + clueTotal + " · 모든 단서와 일치하는 용의자 " + candidates + "명"
+        : "용의자 " + suspectCards.length + "명 · 미스터 아이에게 단서를 건네면 일치하는 얼굴에 빨간 원이 나타나요.";
+      const findings = byId("board-findings");
+      findings.textContent = [...trainedClues].map((id) => caseFile.clues[id].result).join(" ");
+      findings.hidden = trainedClues.size === 0;
+      return candidates;
+    }
+
+    function startInvestigation() {
+      byId("nahee-dialogue").hidden = true;
+      byId("talk-to-nahee").setAttribute("aria-expanded", "false");
+      trainedClues.clear();
+      clearReaction();
+      for (const token of clueTokens) token.hidden = false;
+      finishDrag();
+      selectClue(null);
+      byId("room-status").textContent = "학습 단서 0/" + clueTotal;
+      updateSuspects();
+      showScreen("game");
+      roomZoom = 1.2;
+      positionRoom(roomViewport.clientWidth / 2, roomViewport.clientHeight / 2, roomWidth / 2, roomHeight / 2);
+    }
+
+    function positionRoom(screenX, screenY, worldX, worldY) {
+      const width = roomViewport.clientWidth;
+      const height = roomViewport.clientHeight;
+      if (!width || !height) return;
+      roomScale = Math.max(width / roomWidth, height / roomHeight) * roomZoom;
+      roomX = Math.min(0, Math.max(width - roomWidth * roomScale, screenX - worldX * roomScale));
+      roomY = Math.min(0, Math.max(height - roomHeight * roomScale, screenY - worldY * roomScale));
+      roomWorld.style.transform = `translate(${roomX}px, ${roomY}px) scale(${roomScale})`;
+    }
+
+    roomScene.addEventListener("dragstart", (event) => event.preventDefault());
+
+    roomScene.addEventListener("pointerdown", (event) => {
+      if (!event.isPrimary || event.button !== 0 || event.target.closest("button") || drag || roomPan) return;
+      roomPan = { pointer: event.pointerId, x: event.clientX, y: event.clientY, startX: roomX, startY: roomY };
+      roomScene.setPointerCapture(event.pointerId);
+      roomScene.classList.add("panning");
+    });
+
+    roomScene.addEventListener("pointermove", (event) => {
+      if (roomPan?.pointer !== event.pointerId) return;
+      positionRoom(roomPan.startX + event.clientX - roomPan.x, roomPan.startY + event.clientY - roomPan.y, 0, 0);
+    });
+
+    for (const type of ["pointerup", "pointercancel", "lostpointercapture"]) {
+      roomScene.addEventListener(type, (event) => {
+        if (roomPan?.pointer !== event.pointerId) return;
+        roomPan = null;
+        roomScene.classList.remove("panning");
+      });
+    }
+
+    roomViewport.addEventListener("wheel", (event) => {
+      event.preventDefault();
+      if (drag || roomPan || event.deltaY === 0) return;
+      const bounds = roomViewport.getBoundingClientRect();
+      const x = event.clientX - bounds.left;
+      const y = event.clientY - bounds.top;
+      roomZoom = Math.min(2.8, Math.max(1, roomZoom * (event.deltaY > 0 ? 1.13 : 1 / 1.13)));
+      positionRoom(x, y, (x - roomX) / roomScale, (y - roomY) / roomScale);
+    }, { passive: false });
+
+    new ResizeObserver(() => positionRoom(roomX, roomY, 0, 0)).observe(roomViewport);
+
+    function selectClue(token) {
+      selectedClue = token;
+      for (const clue of clueTokens) clue.setAttribute("aria-pressed", String(clue === token));
+      detective.classList.toggle("ready", token !== null);
+    }
+
+    const cameraRecords = [
+      { scene: "빈 현관", caption: "[조용한 실내]", file: "homecam-room-tone.wav" },
+      { scene: "현관을 지나가는 고양이", caption: "[가벼운 발소리]", file: "investigation_footsteps.mp3" },
+      { scene: "외출하는 나희", caption: "금방 다녀올게.", file: "homecam-voice-03.wav" },
+      { scene: "닫힌 현관문", caption: "[조용한 실내]", file: "homecam-room-tone.wav" },
+      { scene: "햇빛이 드는 빈 현관", caption: "[조용한 실내]", file: "homecam-room-tone.wav" },
+      { scene: "조금 열린 현관문", caption: "[문이 열리는 소리]", file: "investigation_door_open.mp3" },
+      { scene: "눈만 드러나는 남색 복면을 쓴 사람이 토끼 인형을 들고 나가고, 발밑의 현관 매트에 발자국이 찍혀 있다.", caption: "[급한 발소리]", file: "investigation_footsteps.mp3", evidence: "image" },
+      { scene: "문이 닫히는 빈 현관", caption: "동생이 좋아하겠지. 토끼 인형은 내가 가져갈게.", file: "homecam-voice-08.wav", evidence: "audio" },
+      { scene: "해가 기울고 비어 있는 현관", caption: "[조용한 실내]", file: "homecam-room-tone.wav" },
+      { scene: "현관문을 열고 집 안으로 들어오는 나희의 얼굴이 보이는 장면", caption: "어? 현관문이 왜 열려 있지?", file: "homecam-voice-10.wav" }
+    ];
+    const cameraDeparture = cameraRecords.findIndex((record) => record.evidence === "image");
+    const cameraGuide = [
+      "스크롤바를 이용해 장면을 확인해요.",
+      "범인이 찍힌 장면을 찾아요.",
+      "범인의 목소리를 찾아요.",
+      "찾은 데이터를 미스터 아이에게 학습시켜요"
+    ];
+    const cameraGame = byId("camera-game");
+    const cameraTime = byId("camera-time");
+    const cameraLearner = byId("camera-learner");
+    const cameraGhost = byId("camera-ghost");
+    const cameraFrame = byId("camera-frame");
+    const cameraClip = byId("camera-clip");
+    const cameraSound = new Audio();
+    const cameraLearned = new Set();
+    let cameraToken;
+    let cameraSelection;
+    let cameraDrag;
+    let cameraDraggedSource;
+    let cameraTimer;
+    let cameraGuideIndex;
+
+    function stopCameraSound() {
+      cameraSound.pause();
+    }
+
+    function selectCameraSample(kind) {
+      cameraSelection = kind;
+      cameraFrame.setAttribute("aria-pressed", String(kind === "image"));
+      cameraClip.setAttribute("aria-pressed", String(kind === "audio"));
+      cameraLearner.dataset.ready = String(Boolean(kind));
+    }
+
+    function setCameraFrame(element, index) {
+      element.toggleAttribute("data-departure", index === cameraDeparture);
+      if (index <= cameraDeparture) delete element.dataset.footprints;
+      else element.dataset.footprints = index === cameraRecords.length - 1 ? "partial" : "full";
+      element.style.setProperty("--cam-x", (index % 3) * 50 + "%");
+      element.style.setProperty("--cam-y", Math.floor(index / 3) * 100 / 3 + "%");
+    }
+
+    function renderCamera() {
+      stopCameraSound();
+      selectCameraSample(undefined);
+      const index = Number(cameraTime.value);
+      const record = cameraRecords[index];
+      byId("camera-time-label").textContent = (index + 1) + " / " + cameraRecords.length;
+      setCameraFrame(cameraFrame, index);
+      setCameraFrame(cameraLearner, index);
+      cameraFrame.setAttribute("aria-label", "영상 " + (index + 1) + " · " + record.scene);
+      byId("camera-clip-label").textContent = "소리 " + String(index + 1).padStart(2, "0");
+      cameraClip.style.setProperty("--wave-angle", 90 + index * 11 + "deg");
+      byId("camera-transcript").textContent = record.caption;
+    }
+
+    function renderCameraGuide() {
+      const active = cameraGuideIndex < cameraGuide.length;
+      byId("camera-guide").hidden = !active;
+      if (active) {
+        cameraGame.dataset.guide = cameraGuideIndex;
+        byId("camera-guide-line").textContent = cameraGuide[cameraGuideIndex];
+        byId("camera-guide-next").textContent = cameraGuideIndex === cameraGuide.length - 1 ? "분석 시작" : "다음";
+      } else {
+        delete cameraGame.dataset.guide;
+        cameraTime.focus();
+      }
+    }
+
+    function openCameraGame(token) {
+      if (cameraGame.open) return;
+      clearReaction();
+      selectClue(null);
+      cameraToken = token;
+      cameraLearned.clear();
+      cameraGuideIndex = 0;
+      cameraTime.value = "0";
+      byId("camera-progress").textContent = "확인한 데이터 0/2";
+      cameraLearner.dataset.state = "thinking";
+      byId("camera-reply").textContent = "흐음...";
+      renderCamera();
+      renderCameraGuide();
+      cameraGame.showModal();
+      byId("camera-guide-next").focus();
+    }
+
+    function endCameraDrag() {
+      const active = cameraDrag;
+      cameraDrag = undefined;
+      if (active?.source.hasPointerCapture(active.pointer)) active.source.releasePointerCapture(active.pointer);
+      cameraGhost.hidden = true;
+      delete cameraLearner.dataset.over;
+    }
+
+    function closeCameraGame() {
+      clearTimeout(cameraTimer);
+      endCameraDrag();
+      stopCameraSound();
+      cameraToken = undefined;
+      cameraGame.close();
+    }
+
+    function canTrainCamera() {
+      return cameraGuideIndex >= cameraGuide.length && cameraLearned.size < 2 && cameraLearner.dataset.state !== "learning";
+    }
+
+    function learnCameraSample(kind, index) {
+      if (!canTrainCamera()) return;
+      selectCameraSample(undefined);
+      const reply = byId("camera-reply");
+      cameraLearner.dataset.state = "learning";
+      reply.textContent = "";
+      cameraTimer = setTimeout(() => {
+        if (cameraRecords[index].evidence !== kind) {
+          cameraLearner.dataset.state = "wrong";
+          reply.textContent = "여기에는 어떤 연관성도 보이지 않아요.";
+          return;
+        }
+        cameraLearner.dataset.state = "correct";
+        cameraLearned.add(kind);
+        reply.textContent = "정확해요! 범인이 좁혀지고 있어요.";
+        byId("camera-progress").textContent = "확인한 데이터 " + cameraLearned.size + "/2";
+        if (cameraLearned.size === 2) {
+          cameraTimer = setTimeout(() => {
+            const token = cameraToken;
+            closeCameraGame();
+            registerClue(token);
+            detective.focus();
+          }, 1250);
+        }
+      }, 1000);
+    }
+
+    function overCameraLearner(event) {
+      const box = cameraLearner.getBoundingClientRect();
+      return event.clientX >= box.left && event.clientX <= box.right && event.clientY >= box.top && event.clientY <= box.bottom;
+    }
+
+    for (const [kind, source] of [["image", cameraFrame], ["audio", cameraClip]]) {
+      source.addEventListener("pointerdown", (event) => {
+        if (!event.isPrimary || event.button !== 0 || cameraDrag || !canTrainCamera()) return;
+        cameraDraggedSource = undefined;
+        cameraDrag = { source, index: Number(cameraTime.value), pointer: event.pointerId, x: event.clientX, y: event.clientY, moved: false };
+        source.setPointerCapture(event.pointerId);
+      });
+      source.addEventListener("pointermove", (event) => {
+        if (cameraDrag?.pointer !== event.pointerId) return;
+        if (!cameraDrag.moved && Math.hypot(event.clientX - cameraDrag.x, event.clientY - cameraDrag.y) < 7) return;
+        cameraDrag.moved = true;
+        cameraGhost.dataset.kind = kind;
+        cameraGhost.textContent = kind === "audio" ? "소리 " + (cameraDrag.index + 1) : "";
+        setCameraFrame(cameraGhost, cameraDrag.index);
+        cameraGhost.style.left = event.clientX + "px";
+        cameraGhost.style.top = event.clientY + "px";
+        cameraGhost.hidden = false;
+        cameraLearner.dataset.over = String(overCameraLearner(event));
+      });
+      source.addEventListener("pointerup", (event) => {
+        if (cameraDrag?.pointer !== event.pointerId) return;
+        const { moved, index } = cameraDrag;
+        endCameraDrag();
+        if (!moved) return;
+        cameraDraggedSource = source;
+        if (overCameraLearner(event)) learnCameraSample(kind, index);
+      });
+      for (const type of ["pointercancel", "lostpointercapture"]) {
+        source.addEventListener(type, (event) => {
+          if (cameraDrag?.pointer === event.pointerId) endCameraDrag();
+        });
+      }
+      source.addEventListener("click", (event) => {
+        if (event.detail && cameraDraggedSource === source) return;
+        if (kind === "audio") {
+          stopCameraSound();
+          cameraSound.src = cameraRecords[Number(cameraTime.value)].file;
+          void cameraSound.play().catch(() => {});
+        }
+        if (!canTrainCamera()) return;
+        selectCameraSample(cameraSelection === kind ? undefined : kind);
+      });
+    }
+
+    cameraTime.addEventListener("input", renderCamera);
+    cameraGame.addEventListener("dragstart", (event) => event.preventDefault());
+    cameraLearner.addEventListener("click", () => {
+      if (cameraSelection) learnCameraSample(cameraSelection, Number(cameraTime.value));
+    });
+    byId("camera-guide-next").addEventListener("click", () => {
+      cameraGuideIndex += 1;
+      renderCameraGuide();
+    });
+    byId("camera-close").addEventListener("click", closeCameraGame);
+    cameraGame.addEventListener("cancel", (event) => {
+      event.preventDefault();
+      closeCameraGame();
+    });
+
+    function trainClue(token) {
+      if (token.hidden) return;
+      if (token.dataset.clue === "camera") {
+        openCameraGame(token);
+        return;
+      }
+      registerClue(token);
+    }
+
+    function registerClue(token) {
+      const id = token.dataset.clue;
+      if (token.hidden) return;
+      const clue = caseFile.clues[id];
+      selectClue(null);
+      if (document.activeElement === token) detective.focus();
+      token.hidden = true;
+      if (clue.matches) {
+        trainedClues.add(id);
+        updateSuspects();
+      }
+      byId("room-status").textContent = "학습 단서 " + trainedClues.size + "/" + clueTotal;
+      clearReaction();
+      void detective.offsetWidth;
+      detective.dataset.reaction = clue.matches ? "insight" : "shake";
+      byId("detective-reply").textContent = clue.result;
+      reactionTimer = setTimeout(clearReaction, 5000);
+    }
+
+    function clearReaction() {
+      clearTimeout(reactionTimer);
+      delete detective.dataset.reaction;
+      byId("detective-reply").textContent = "";
+    }
+
+    function overDetective(event) {
+      const { left, right, top, bottom } = detective.getBoundingClientRect();
+      return event.clientX >= left && event.clientX <= right && event.clientY >= top && event.clientY <= bottom;
+    }
+
+    function finishDrag() {
+      const active = drag;
+      drag = null;
+      if (active?.token.hasPointerCapture(active.pointer)) active.token.releasePointerCapture(active.pointer);
+      byId("clue-ghost").hidden = true;
+      detective.classList.remove("over");
+    }
+
+    for (const token of clueTokens) {
+      token.addEventListener("pointerdown", (event) => {
+        if (!event.isPrimary || event.button !== 0 || drag) return;
+        draggedToken = null;
+        drag = { token, pointer: event.pointerId, x: event.clientX, y: event.clientY, moved: false };
+        token.setPointerCapture(event.pointerId);
+      });
+      token.addEventListener("pointermove", (event) => {
+        if (drag?.pointer !== event.pointerId) return;
+        if (!drag.moved && Math.hypot(event.clientX - drag.x, event.clientY - drag.y) < 7) return;
+        drag.moved = true;
+        const ghost = byId("clue-ghost");
+        ghost.dataset.clue = token.dataset.clue;
+        ghost.style.left = event.clientX + "px";
+        ghost.style.top = event.clientY + "px";
+        ghost.hidden = false;
+        detective.classList.toggle("over", overDetective(event));
+      });
+      token.addEventListener("pointerup", (event) => {
+        if (drag?.pointer !== event.pointerId) return;
+        const moved = drag.moved;
+        finishDrag();
+        if (!moved) return;
+        draggedToken = token;
+        if (overDetective(event)) trainClue(token);
+      });
+      for (const type of ["pointercancel", "lostpointercapture"]) {
+        token.addEventListener(type, (event) => {
+          if (drag?.pointer === event.pointerId) finishDrag();
+        });
+      }
+      token.addEventListener("click", (event) => {
+        if (draggedToken === token && event.detail !== 0) return;
+        selectClue(token === selectedClue ? null : token);
+        if (selectedClue) byId("room-status").textContent = token.getAttribute("aria-label") + " 선택 · 미스터 아이를 눌러 건네세요.";
+        else byId("room-status").textContent = "학습 단서 " + trainedClues.size + "/" + clueTotal + " · 단서를 선택하세요.";
+      });
+    }
+    detective.addEventListener("click", () => {
+      if (selectedClue) trainClue(selectedClue);
+    });
+
+    function animateBoard(opening) {
+      const poses = [{ transform: "translateX(100vw)" }, { transform: "translateX(0)" }];
+      boardMotion?.cancel();
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return Promise.resolve();
+      boardMotion = suspectBoard.animate(opening ? poses : poses.reverse(), {
+        duration: 320, easing: "ease-in-out", fill: "both"
+      });
+      return boardMotion.finished.catch(() => {});
+    }
+
+    byId("open-suspects").addEventListener("click", () => {
+      byId("board-reply").textContent = "누구일까...?";
+      finishDrag();
+      byId("open-suspects").hidden = true;
+      suspectBoard.showModal();
+      void animateBoard(true);
+    });
+
+    async function closeSuspects() {
+      if (!suspectBoard.open || closingBoard) return;
+      closingBoard = true;
+      await animateBoard(false);
+      suspectBoard.close();
+      boardMotion?.cancel();
+      boardMotion = undefined;
+      closingBoard = false;
+      byId("open-suspects").hidden = false;
+      byId("open-suspects").focus();
+    }
+    byId("close-suspects").addEventListener("click", closeSuspects);
+    async function nominateSuspect(card) {
+      if (closingBoard) return;
+      const reply = byId("board-reply");
+      if (trainedClues.size < clueTotal) {
+        reply.textContent = "아직 단서가 부족한데...";
+        return;
+      }
+      if (card.dataset.match !== "true") {
+        reply.textContent = "모은 단서와 일치하는 용의자를 다시 살펴봐요.";
+        return;
+      }
+      await closeSuspects();
+      playResult();
+    }
+
+    function playResult() {
+      const frames = [
+        { stage: "small", line: "", duration: 1000 },
+        { stage: "medium", line: "", duration: 1000 },
+        { stage: "large", line: "", duration: 1000 },
+        { stage: "suspense", line: "범인은...!", duration: 1500 },
+        { stage: "reveal", line: "바로 당신이야!" }
+      ];
+      const result = byId("result");
+      function renderFrame(index) {
+        const frame = frames[index];
+        const reveal = frame.stage === "reveal";
+        result.dataset.stage = frame.stage;
+        byId("result-line").textContent = frame.line;
+        byId("result-detective").hidden = reveal;
+        byId("result-art").hidden = !reveal;
+        byId("show-course").hidden = !reveal;
+        if (frame.duration) resultTimer = setTimeout(() => renderFrame(index + 1), frame.duration);
+      }
+      showScreen("result");
+      renderFrame(0);
+    }
+    suspectBoard.addEventListener("cancel", (event) => {
+      event.preventDefault();
+      void closeSuspects();
+    });
+
+    byId("start").addEventListener("click", () => startComic(incidentPanels, "incident", "02 사건 발생"));
+    document.querySelector(".comic-frame").addEventListener("click", advanceComic);
+    byId("comic-next").addEventListener("click", advanceComic);
+    byId("comic-skip").addEventListener("click", skipComic);
+    byId("comic-pause").addEventListener("click", () => {
+      comicPaused = !comicPaused;
+      byId("comic-pause").textContent = comicPaused ? "자동 진행 다시 시작" : "자동 진행 일시 정지";
+      scheduleComic();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.code !== "Space" || byId("incident").hidden || !byId("comic-course-link").hidden) return;
+      event.preventDefault();
+      if (event.repeat || skipTimer !== undefined) return;
+      clearTimeout(comicTimer);
+      byId("skip-meter").classList.add("holding");
+      skipTimer = setTimeout(skipComic, 2000);
+    });
+    document.addEventListener("keyup", (event) => {
+      if (event.code === "Space") releaseSkip();
+    });
+    window.addEventListener("blur", releaseSkip);
+    document.addEventListener("visibilitychange", () => {
+      releaseSkip();
+      scheduleComic();
+    });
+    byId("talk-to-nahee").addEventListener("click", () => {
+      byId("nahee-dialogue").hidden = false;
+      byId("talk-to-nahee").setAttribute("aria-expanded", "true");
+      byId("nahee-speaker").focus();
+    });
+    byId("close-nahee").addEventListener("click", () => {
+      byId("nahee-dialogue").hidden = true;
+      byId("talk-to-nahee").setAttribute("aria-expanded", "false");
+      byId("talk-to-nahee").focus();
+    });
+    byId("show-course").addEventListener("click", () => startComic(endingPanels, "ending", "04 사건 해결"));
+    byId("restart").addEventListener("click", () => showScreen("intro"));
+  </script>
+</body>
+</html>
