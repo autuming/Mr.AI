@@ -405,16 +405,109 @@
     .detective-target[data-reaction="shake"] .standing-sprite { clip-path: inset(51% 0 0); }
     .detective-target[data-reaction="shake"] .shake-head {
       visibility: visible; clip-path: inset(0 0 47%); transform-origin: 50% 51%;
-      animation: detective-shake .58s ease-in-out;
     }
     @keyframes detective-shake {
       0%, 100% { transform: rotate(0); }
       16%, 52% { transform: rotate(-8deg); }
       34%, 70% { transform: rotate(8deg); }
     }
-    @media (prefers-reduced-motion: reduce) {
-      .detective-target[data-reaction="shake"] .shake-head { animation: none; transform: rotate(-5deg); }
+    .house-scene[data-discovering] :is(.house-heading, .nahee-hotspot, .nahee-dialogue, .detective-target, .detective-reply) {
+      visibility: hidden;
     }
+    .clue-discovery {
+      width: min(32rem, 90vw); max-height: 90dvh; padding: 1.5rem;
+      border: 2px solid #ad7541; border-radius: 1rem;
+      background: #fff4dc; color: #3b2518; text-align: center;
+    }
+    .clue-discovery::backdrop { background: #24170e99; }
+    .clue-discovery[data-phase="reveal"] { border: 0; background: transparent; }
+    .clue-discovery-logo {
+      display: inline-block; margin: 0; padding: .45em .8em;
+      border: .1em solid #ffda8d; border-radius: .35em;
+      background: #694024; color: #fff2c9;
+      box-shadow: 0 .12em 0 #402619; font-size: clamp(2rem, 7vw, 4rem);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .clue-discovery[open] .clue-discovery-logo { animation: clue-pop .55s cubic-bezier(.2,.75,.35,1.3) both; }
+    }
+    @keyframes clue-pop {
+      from { opacity: 0; transform: scale(.45) rotate(-8deg); }
+      to { opacity: 1; transform: scale(1) rotate(-3deg); }
+    }
+    .fiber-tools { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .35rem; margin-block: .75rem; }
+    .fiber-tools button { font-size: 1.35rem; padding: .3rem; cursor: grab; }
+    .fiber-tools button:disabled { opacity: .45; cursor: default; }
+    .fiber-board { display: grid; place-items: center; min-height: 12rem; border: 2px dashed #ad7541; border-radius: .6rem; background: #f1d5ac; }
+    .fiber-board img { width: 5rem; border-radius: .4rem; }
+    .fiber-board[data-step="1"] img, .fiber-board[data-step="2"] img { width: min(100%, 11rem); }
+    .fiber-board[data-step="2"] img { outline: .25rem solid #fff6e5; }
+    .fiber-pixels { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); width: min(100%, 19rem); }
+    .fiber-pixels span { display: grid; place-items: center; aspect-ratio: 1; border: 1px solid #fff4dc88; color: #fff; font: .65rem/1.1 system-ui; white-space: pre-line; }
+    .fingerprint-board {
+      position: relative; width: min(100%, 53dvh); margin: .5rem auto;
+      border-radius: .6rem; overflow: hidden; cursor: crosshair;
+    }
+    .fingerprint-board img { display: block; width: 100%; height: auto; }
+    .clue-discovery[data-phase="footprint"] {
+      width: min(44rem, 94vw); padding-top: 3rem;
+      background: linear-gradient(#64402bea, #64402bea), url("resources/img/detective-paper.png") center / 22rem;
+      color: #fff1d8;
+    }
+    .footprint-close { position: absolute; top: .45rem; right: .55rem; width: 2.45rem; height: 2.45rem; padding: 0; border: 0; background: transparent; }
+    .footprint-close img { display: block; width: 100%; }
+    .footprint-layout { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: .75rem; align-items: center; }
+    .footprint-workspace { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: .35rem; }
+    .footprint-tools { display: grid; gap: .35rem; align-content: start; }
+    .footprint-tools button { display: grid; place-items: center; width: 2rem; height: 2rem; padding: 0; background: #895a3c; color: #fff1d8; }
+    .footprint-tools button[aria-pressed="true"] { outline: 2px solid #ffdb80; outline-offset: 1px; }
+    .footprint-tools button span { width: 1.65rem; aspect-ratio: 1; background: url("resources/img/footprint-tools.png") left center / 200% 100% no-repeat; }
+    .footprint-tools .footprint-tool-photo { background-position: right center; }
+    .footprint-board { position: relative; background: #f4dfb7; border-radius: .6rem; cursor: crosshair; touch-action: none; user-select: none; }
+    .footprint-board img { display: block; width: 100%; height: auto; pointer-events: none; -webkit-user-drag: none; }
+    .footprint-ruler {
+      position: absolute; height: .8rem; transform-origin: left center; pointer-events: none;
+      border: 1px solid #563620; border-radius: .15rem;
+      background: repeating-linear-gradient(90deg, #563620 0 1px, transparent 1px .45rem) top / 100% 42% no-repeat, #ffd36c;
+    }
+    .footprint-data { margin: 0; text-align: left; }
+    .footprint-data dt { font-weight: bold; }
+    .footprint-data dd { margin: .2rem 0 .8rem; }
+    .footprint-selection { position: absolute; border: 2px dashed #6d4224; background: #fff3cb55; pointer-events: none; }
+    .footprint-crop { position: relative; width: min(100%, 7rem); max-width: 100%; overflow: hidden; display: block; border-radius: .25rem; background: #f4dfb7; }
+    .footprint-crop img { position: absolute; display: block; max-width: none; }
+    .fingerprint-point {
+      position: absolute; width: clamp(.65rem, 2.5vw, .95rem); aspect-ratio: 1;
+      transform: translate(-50%, -50%); border: 2px solid #1666a0;
+      border-radius: 50%; box-shadow: 0 0 0 1px #fff7e6; pointer-events: none;
+    }
+    .fingerprint-point[data-fork] { border-color: #b23128; }
+    .fingerprint-guide {
+      position: absolute; inset: auto .5rem .5rem; padding: .55rem;
+      border-radius: .45rem; background: #563620; color: #fff4dc;
+    }
+    .fingerprint-guide small { display: block; margin-top: .25rem; }
+    .clue-discovery[data-phase="fingerprint-guide"] { cursor: pointer; }
+    .clue-success {
+      position: fixed; inset: 0; width: 100%; height: 100%;
+      max-width: none; max-height: none; margin: 0; padding: 0;
+      border: 0; background: transparent; overflow: hidden;
+    }
+    .clue-success::backdrop { background: #27190f45; }
+    .clue-success-center, .clue-success-image {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    }
+    .clue-success-center { width: max-content; max-width: 90vw; text-align: center; }
+    .clue-success-center h2 { position: relative; }
+    .clue-success-stars span {
+      position: absolute; top: 50%; left: 50%; color: #ffdb78;
+      font-size: clamp(2rem, 6vw, 4rem); line-height: 1;
+      text-shadow: 0 2px 5px #82491e; pointer-events: none;
+    }
+    .clue-success-image {
+      width: clamp(4rem, 16vw, 8rem); height: clamp(4rem, 16vw, 8rem);
+      object-fit: contain; filter: drop-shadow(0 0 .45rem #fff0b6);
+    }
+    .clue-success-image.fiber-preview { object-fit: none; object-position: 14.8% 43%; border-radius: .35rem; }
     .detective-name {
       position: absolute; right: calc(100% + .15rem); bottom: max(.3rem, env(safe-area-inset-bottom)); white-space: nowrap;
       padding: .2rem .55rem; border: 1px solid #ffdf98; border-radius: 2rem;
@@ -513,19 +606,21 @@
       border: 1px solid #b08863; background: #50372b var(--cam-image, url("resources/homecam/homecam-camera-view.png")) no-repeat var(--cam-x, 0%) var(--cam-y, 0%) / var(--cam-size, 300% 400%);
     }
     .camera-frame, .camera-clip { touch-action: none; cursor: grab; }
+    .camera-frame, .camera-ghost[data-kind="image"] { filter: brightness(1.1) saturate(.92) contrast(.96); }
+    .camera-frame { box-shadow: 0 .25rem .8rem #824a343b; }
     .camera-frame[aria-pressed="true"], .camera-clip[aria-pressed="true"] { outline: 2px solid #f2c983; }
     .camera-audio { display: grid; gap: .45rem; }
-    .camera-audio button, .camera-heading button, .camera-guide button { min-height: 2.3rem; padding: .32rem .55rem; font-size: .82rem; }
+    .camera-audio button, .camera-heading button { min-height: 2.3rem; padding: .32rem .55rem; font-size: .82rem; }
     .camera-clip {
       width: 100%; justify-content: space-between; gap: .4rem;
-      background: #5b4432; border-color: #957150;
+      background: #f4d8ad; border-color: #a66b3e; color: #573620;
     }
     .camera-wave {
-      flex: 1; height: 1.15rem;
-      background: repeating-linear-gradient(90deg, #e7b872 0 2px, transparent 2px 6px);
-      mask-image: repeating-linear-gradient(var(--wave-angle, 110deg), transparent 0 9%, #000 12% 34%, transparent 42% 53%, #000 63% 80%, transparent 88% 100%);
+      flex: 1; height: 1.65rem; display: flex; align-items: center; gap: 2px;
+      padding: .15rem .35rem; border-radius: .3rem; background: #ffedce;
     }
-    .camera-transcript { margin: 0; font-size: .84rem; color: #f8d7a8; }
+    .camera-wave span { flex: 1; height: var(--level); border-radius: 3px; background: linear-gradient(#b76a42, #d69755); }
+    .camera-transcript { margin: 0; font-size: .84rem; color: #694022; }
     .camera-learner {
       position: relative; width: 100%; padding: 0;
       background: transparent; border: 2px solid transparent;
@@ -595,14 +690,21 @@
     .camera-ghost[data-kind="image"] {
       aspect-ratio: 1; background: #50372b var(--cam-image, url("resources/homecam/homecam-camera-view.png")) no-repeat var(--cam-x) var(--cam-y) / var(--cam-size, 300% 400%);
     }
-    .camera-game [data-departure] { --cam-image: url("resources/homecam/homecam-masked-storybook.png"); --cam-size: 100% 100%; }
-    .camera-frame[data-footprints]::after, .camera-ghost[data-kind="image"][data-footprints]::after {
-      position: absolute; left: 37%; top: 60%; width: 39%; aspect-ratio: 1.45; content: "";
-      background: url("resources/homecam/homecam-footprints.png") center / 100% 100% no-repeat;
-      opacity: .88; pointer-events: none;
+    .camera-game {
+      --cam-image: url("resources/homecam/homecam-timeline-sheet.png");
+      --cam-size: 300% 300%;
     }
-    .camera-frame[data-footprints="partial"]::after, .camera-ghost[data-kind="image"][data-footprints="partial"]::after {
-      clip-path: inset(0 32% 0 0);
+    .camera-game [data-entry] {
+      --cam-image: url("resources/homecam/homecam-timeline-entry.png");
+      --cam-size: 100% 100%;
+    }
+    .camera-game { --cam-arrival-image: url("resources/homecam/homecam-timeline-arrival.png"); }
+    .camera-game [data-arrival] {
+      --cam-image: var(--cam-arrival-image);
+      --cam-size: 100% 100%;
+    }
+    .camera-game [data-footprint-trail] {
+      --cam-image: url("resources/homecam/homecam-timeline-matched-trail.png");
     }
     .suspects-toggle {
       position: absolute; right: 0; top: 49%; padding: .6rem .8rem; border-radius: .65rem 0 0 .65rem;
@@ -663,14 +765,24 @@
     .camera-game {
       width: min(96vw, 64rem); max-width: none; max-height: 94svh; overflow: auto;
       padding: clamp(.65rem, 2vw, 1.35rem); border: 1px solid #c49e70; border-radius: .85rem;
-      background: #2b211bf5; color: #fff4d8;
+      background: linear-gradient(#795039e8, #533421f0), url("resources/img/detective-paper.png") center / 22rem;
+      color: #fff1d8; box-shadow: 0 .65rem 2rem #42251155;
     }
-    .camera-game::backdrop { background: rgb(0 0 0 / .30); }
+    .camera-game::backdrop { background: #3e261ca6; }
     .camera-heading { display: flex; justify-content: space-between; align-items: center; gap: .5rem; margin-bottom: .7rem; }
     .camera-heading h2 { font-size: clamp(1.25rem, 4vw, 2rem); }
+    .camera-heading .camera-close {
+      display: grid; place-items: center; width: 2.75rem; height: 2.75rem;
+      padding: 0; border: 0; border-radius: 50%; background: transparent;
+    }
+    .camera-close img { display: block; width: 100%; height: 100%; }
+    .camera-close:hover img { filter: brightness(1.15); }
+    .camera-close:focus-visible { outline: 2px solid #fff1d8; outline-offset: 2px; }
+    .camera-game .camera-transcript { color: #fff1d8; }
     .camera-grid { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: clamp(.4rem, 2vw, 1.15rem); }
     .camera-recording, .camera-learning { display: grid; align-content: start; gap: .55rem; min-width: 0; }
-    .camera-game input { display: block; width: 100%; margin: .2rem 0; accent-color: #edb76d; }
+    .camera-game input { display: block; width: 100%; margin: .2rem 0; accent-color: #a85d37; }
+    .camera-game[data-guide] { cursor: pointer; }
     .camera-timeline label, .camera-audio h3 { font-size: .88rem; }
     .camera-still {
       display: block; width: 100%; aspect-ratio: 5 / 3; padding: 0; touch-action: none; cursor: grab;
@@ -856,10 +968,76 @@
         </button>
         <span id="clue-ghost" class="clue-ghost" aria-hidden="true" hidden></span>
       </div>
-      <dialog id="camera-game" class="camera-game" aria-labelledby="camera-title">
+      <dialog id="clue-discovery" class="clue-discovery" aria-label="단서 분석">
+        <h2 id="clue-discovery-logo" class="clue-discovery-logo">단서 발견!</h2>
+        <div id="fiber-game" hidden>
+          <h2 id="fiber-title" tabindex="-1">천 조각 데이터화</h2>
+          <div id="fiber-tools" class="fiber-tools" aria-label="천 조각 분석 도구">
+            <button type="button" draggable="true" data-fiber-tool="zoom" aria-label="돋보기" title="돋보기">🔍</button>
+            <button type="button" draggable="true" data-fiber-tool="pixel" aria-label="픽셀" title="픽셀">▦</button>
+            <button type="button" draggable="true" data-fiber-tool="numbers" aria-label="RGB 숫자 격자" title="RGB 숫자 격자">▦¹²</button>
+            <button type="button" draggable="true" data-fiber-tool="photo" aria-label="사진" title="사진">📷</button>
+          </div>
+          <div id="fiber-board" class="fiber-board">
+            <img id="fiber-image" src="resources/img/fiber-analysis.png" alt="소파에서 찾은 남색 천 조각" draggable="false">
+            <div id="fiber-pixels" class="fiber-pixels" hidden></div>
+          </div>
+          <p id="fiber-reply" role="status"></p>
+          <button id="fiber-close" type="button">방으로 돌아가기</button>
+        </div>
+        <div id="fingerprint-game" hidden>
+          <h2 id="fingerprint-title" tabindex="-1">지문 끝점과 분기점</h2>
+          <div id="fingerprint-board" class="fingerprint-board">
+            <img src="resources/img/fingerprint-minigame.png" width="1254" height="1254" draggable="false" alt="끝점과 분기점을 찾을 지문">
+            <div id="fingerprint-points" aria-hidden="true"></div>
+            <div id="fingerprint-guide" class="fingerprint-guide">
+              <span id="fingerprint-guide-line" aria-live="polite"></span>
+              <small>아무 곳이나 클릭해서 계속</small>
+            </div>
+          </div>
+          <p id="fingerprint-progress" role="status"></p>
+          <p id="fingerprint-reply" role="status"></p>
+          <button id="fingerprint-close" type="button">방으로 돌아가기</button>
+        </div>
+        <div id="footprint-game" hidden>
+          <h2 id="footprint-title" tabindex="-1">발자국 재기</h2>
+          <div class="footprint-layout">
+            <div class="footprint-workspace">
+              <div class="footprint-tools" aria-label="발자국 분석 도구">
+                <button id="footprint-ruler-tool" type="button" aria-label="줄자" title="줄자" aria-pressed="true"><span class="footprint-tool-ruler" aria-hidden="true"></span></button>
+                <button id="footprint-photo-tool" type="button" aria-label="사진" title="사진" aria-pressed="false"><span class="footprint-tool-photo" aria-hidden="true"></span></button>
+              </div>
+              <div id="footprint-board" class="footprint-board">
+              <img src="resources/img/footprint-measure.png" width="560" height="560" draggable="false" alt="앞코가 위를 향한 신발 밑창 자국">
+              <span id="footprint-ruler" class="footprint-ruler" aria-hidden="true" hidden></span>
+                <span id="footprint-selection" class="footprint-selection" aria-hidden="true" hidden></span>
+              </div>
+            </div>
+            <dl class="footprint-data">
+              <dt>발자국 길이</dt><dd id="footprint-length">미측정</dd>
+              <dt>발자국 폭</dt><dd id="footprint-width">미측정</dd>
+              <dt>발 앞굽 모양</dt><dd id="footprint-front">미촬영</dd>
+              <dt>발 뒷굽 모양</dt><dd id="footprint-rear">미촬영</dd>
+            </dl>
+          </div>
+          <p>줄자로 길이와 폭을 재고, 사진 도구로 앞굽과 뒷굽을 각각 드래그해 기록하세요.</p>
+          <p id="footprint-reply" role="status"></p>
+          <button id="footprint-close" class="footprint-close camera-close" type="button" aria-label="발자국 재기 닫기"><img src="resources/homecam/homecam-close.png" alt=""></button>
+        </div>
+      </dialog>
+      <dialog id="clue-success" class="clue-success" aria-label="단서 획득 성공">
+        <div id="clue-success-center" class="clue-success-center">
+          <div id="clue-success-stars" class="clue-success-stars" aria-hidden="true"></div>
+          <h2 id="clue-success-logo" class="clue-discovery-logo">단서 획득 성공!</h2>
+        </div>
+        <img id="clue-success-image" class="clue-success-image" alt="" hidden>
+      </dialog>
+      <dialog id="camera-game" class="camera-game" aria-labelledby="camera-title" tabindex="-1">
         <header class="camera-heading">
           <h2 id="camera-title">홈캠 기록 분석</h2>
-          <button id="camera-close" type="button" aria-label="홈캠 분석 닫기">×</button>
+          <button id="camera-close" class="camera-close" type="button" aria-label="홈캠 분석 닫기">
+            <img src="resources/homecam/homecam-close.png" alt="" width="96" height="96">
+          </button>
         </header>
         <div class="camera-layout">
           <div class="camera-recordings">
@@ -871,7 +1049,7 @@
               <button id="camera-frame" class="camera-frame" type="button" aria-pressed="false"></button>
               <div id="camera-guide" class="camera-guide">
                 <p id="camera-guide-line" aria-live="polite"></p>
-                <button id="camera-guide-next" type="button">다음</button>
+                <small>아무 곳이나 클릭해서 계속</small>
               </div>
             </div>
             <div class="camera-audio">
@@ -1264,18 +1442,19 @@
     }
 
     const cameraRecords = [
-      { scene: "빈 현관", caption: "[조용한 실내]", file: "sound/03_investigation/homecam-room-tone.wav" },
-      { scene: "현관을 지나가는 고양이", caption: "[가벼운 발소리]", file: "sound/03_investigation/investigation_footsteps.mp3" },
-      { scene: "외출하는 나희", caption: "금방 다녀올게.", file: "sound/03_investigation/homecam-voice-03.wav" },
-      { scene: "닫힌 현관문", caption: "[조용한 실내]", file: "sound/03_investigation/homecam-room-tone.wav" },
-      { scene: "햇빛이 드는 빈 현관", caption: "[조용한 실내]", file: "sound/03_investigation/homecam-room-tone.wav" },
-      { scene: "조금 열린 현관문", caption: "[문이 열리는 소리]", file: "sound/03_investigation/investigation_door_open.mp3" },
-      { scene: "눈만 드러나는 남색 복면을 쓴 사람이 토끼 인형을 들고 나가고, 발밑의 현관 매트에 발자국이 찍혀 있다.", caption: "[급한 발소리]", file: "sound/03_investigation/investigation_footsteps.mp3", evidence: "image" },
+      { scene: "빈 현관", caption: "[조용한 실내]", audioDescription: "조용한 실내의 배경음만 들려요.", file: "sound/03_investigation/homecam-room-tone.wav" },
+      { scene: "현관을 지나가는 고양이", caption: "[가벼운 발소리]", audioDescription: "고양이가 지나가며 가벼운 발소리를 내요.", file: "sound/03_investigation/investigation_footsteps.mp3" },
+      { scene: "외출하는 나희", caption: "금방 다녀올게.", audioDescription: "나희가 외출하면서 금방 돌아오겠다고 말해요.", file: "sound/03_investigation/homecam-voice-03.wav" },
+      { scene: "닫힌 현관문", caption: "아무도 없나...?", speech: true, evidence: "audio" },
+      { scene: "현관문이 열리기 시작해요.", caption: "[문이 열리는 소리]", file: "sound/03_investigation/investigation_door_open.mp3" },
+      { scene: "눈만 드러나는 남색 복면을 쓴 사람이 열린 문으로 들어와요.", caption: "[가벼운 발소리]", file: "sound/03_investigation/investigation_footsteps.mp3", referenceFrame: true, evidence: "image" },
+      { scene: "복면을 쓴 사람이 토끼 인형을 들고 나가고, 현관 매트에 발자국이 남아요.", caption: "[급한 발소리]", file: "sound/03_investigation/investigation_footsteps.mp3", evidence: "image" },
       { scene: "문이 닫히는 빈 현관", caption: "동생이 좋아하겠지. 토끼 인형은 내가 가져갈게.", file: "sound/03_investigation/homecam-voice-08.wav", evidence: "audio" },
       { scene: "해가 기울고 비어 있는 현관", caption: "[조용한 실내]", file: "sound/03_investigation/homecam-room-tone.wav" },
-      { scene: "현관문을 열고 집 안으로 들어오는 나희의 얼굴이 보이는 장면", caption: "어? 현관문이 왜 열려 있지?", file: "sound/03_investigation/homecam-voice-10.wav" }
+      { scene: "현관문을 열고 집 안으로 들어오는 나희의 얼굴이 보이는 장면", caption: "어? 현관문이 왜 열려 있지?", audioDescription: "돌아온 나희가 열린 문을 보고 놀라는 목소리예요.", file: "sound/03_investigation/homecam-voice-10.wav" }
     ];
-    const cameraDeparture = cameraRecords.findIndex((record) => record.evidence === "image");
+    const cameraReferenceIndex = cameraRecords.findIndex((record) => record.referenceFrame);
+    const cameraEvidenceTotal = cameraRecords.filter((record) => record.evidence).length;
     const cameraGuide = [
       "스크롤바를 이용해 장면을 확인해요.",
       "범인이 찍힌 장면을 찾아요.",
@@ -1296,9 +1475,14 @@
     let cameraDraggedSource;
     let cameraTimer;
     let cameraGuideIndex;
+    let cameraSpeech;
 
     function stopCameraSound() {
       cameraSound.pause();
+      if (cameraSpeech) {
+        window.speechSynthesis.cancel();
+        cameraSpeech = undefined;
+      }
     }
 
     function selectCameraSample(kind) {
@@ -1309,11 +1493,13 @@
     }
 
     function setCameraFrame(element, index) {
-      element.toggleAttribute("data-departure", index === cameraDeparture);
-      if (index <= cameraDeparture) delete element.dataset.footprints;
-      else element.dataset.footprints = index === cameraRecords.length - 1 ? "partial" : "full";
-      element.style.setProperty("--cam-x", (index % 3) * 50 + "%");
-      element.style.setProperty("--cam-y", Math.floor(index / 3) * 100 / 3 + "%");
+      const spriteIndex = index > cameraReferenceIndex ? index - 1 : index;
+      const isArrival = index === cameraRecords.length - 1;
+      element.toggleAttribute("data-entry", index === cameraReferenceIndex);
+      element.toggleAttribute("data-arrival", isArrival);
+      element.toggleAttribute("data-footprint-trail", index > cameraReferenceIndex && !isArrival);
+      element.style.setProperty("--cam-x", (spriteIndex % 3) * 50 + "%");
+      element.style.setProperty("--cam-y", Math.floor(spriteIndex / 3) * 50 + "%");
     }
 
     function renderCamera() {
@@ -1326,7 +1512,14 @@
       setCameraFrame(cameraLearner, index);
       cameraFrame.setAttribute("aria-label", "영상 " + (index + 1) + " · " + record.scene);
       byId("camera-clip-label").textContent = "소리 " + String(index + 1).padStart(2, "0");
-      cameraClip.style.setProperty("--wave-angle", 90 + index * 11 + "deg");
+      const bars = Array.from({ length: 40 }, (_, bar) => {
+        const segment = document.createElement("span");
+        const envelope = Math.sin(Math.PI * bar / 39);
+        const variation = Math.abs(Math.sin(bar * (1.31 + index * .17)));
+        segment.style.setProperty("--level", (12 + 85 * envelope * variation) + "%");
+        return segment;
+      });
+      cameraClip.querySelector(".camera-wave").replaceChildren(...bars);
       byId("camera-transcript").textContent = record.caption;
     }
 
@@ -1336,7 +1529,6 @@
       if (active) {
         cameraGame.dataset.guide = cameraGuideIndex;
         byId("camera-guide-line").textContent = cameraGuide[cameraGuideIndex];
-        byId("camera-guide-next").textContent = cameraGuideIndex === cameraGuide.length - 1 ? "분석 시작" : "다음";
       } else {
         delete cameraGame.dataset.guide;
         cameraTime.focus();
@@ -1351,13 +1543,13 @@
       cameraLearned.clear();
       cameraGuideIndex = 0;
       cameraTime.value = "0";
-      byId("camera-progress").textContent = "확인한 데이터 0/2";
+      updateCameraProgress();
       cameraLearner.dataset.state = "thinking";
       byId("camera-reply").textContent = "흐음...";
       renderCamera();
       renderCameraGuide();
       cameraGame.showModal();
-      byId("camera-guide-next").focus();
+      cameraGame.focus();
     }
 
     function endCameraDrag() {
@@ -1377,32 +1569,40 @@
     }
 
     function canTrainCamera() {
-      return cameraGuideIndex >= cameraGuide.length && cameraLearned.size < 2 && cameraLearner.dataset.state !== "learning";
+      return cameraGuideIndex >= cameraGuide.length && cameraLearned.size < cameraEvidenceTotal && cameraLearner.dataset.state !== "learning";
+    }
+
+    function updateCameraProgress() {
+      byId("camera-progress").textContent = "확인한 데이터 " + cameraLearned.size + "/" + cameraEvidenceTotal;
     }
 
     function learnCameraSample(kind, index) {
       if (!canTrainCamera()) return;
       selectCameraSample(undefined);
       const reply = byId("camera-reply");
+      const record = cameraRecords[index];
       cameraLearner.dataset.state = "learning";
       reply.textContent = "";
       cameraTimer = setTimeout(() => {
-        if (cameraRecords[index].evidence !== kind) {
+        if (record.evidence !== kind) {
           cameraLearner.dataset.state = "wrong";
-          reply.textContent = "여기에는 어떤 연관성도 보이지 않아요.";
+          reply.textContent = kind === "image"
+            ? "영상 · " + record.scene
+            : "소리 · " + (record.audioDescription ?? record.caption);
           return;
         }
         cameraLearner.dataset.state = "correct";
-        cameraLearned.add(kind);
+        if (cameraLearned.has(index)) {
+          reply.textContent = "이미 확인한 데이터예요.";
+          return;
+        }
+        cameraLearned.add(index);
         reply.textContent = "정확해요! 범인이 좁혀지고 있어요.";
-        byId("camera-progress").textContent = "확인한 데이터 " + cameraLearned.size + "/2";
-        if (cameraLearned.size === 2) {
-          cameraTimer = setTimeout(() => {
-            const token = cameraToken;
-            closeCameraGame();
-            registerClue(token);
-            detective.focus();
-          }, 1250);
+        updateCameraProgress();
+        if (cameraLearned.size === cameraEvidenceTotal) {
+          const token = cameraToken;
+          closeCameraGame();
+          void completeClueGame(token);
         }
       }, 1000);
     }
@@ -1448,8 +1648,15 @@
         if (event.detail && cameraDraggedSource === source) return;
         if (kind === "audio") {
           stopCameraSound();
-          cameraSound.src = cameraRecords[Number(cameraTime.value)].file;
-          void cameraSound.play().catch(() => {});
+          const record = cameraRecords[Number(cameraTime.value)];
+          if (record.speech && "speechSynthesis" in window) {
+            cameraSpeech = new SpeechSynthesisUtterance(record.caption);
+            cameraSpeech.lang = "ko-KR";
+            window.speechSynthesis.speak(cameraSpeech);
+          } else if (record.file) {
+            cameraSound.src = record.file;
+            void cameraSound.play().catch(() => {});
+          }
         }
         if (!canTrainCamera()) return;
         selectCameraSample(cameraSelection === kind ? undefined : kind);
@@ -1461,24 +1668,488 @@
     cameraLearner.addEventListener("click", () => {
       if (cameraSelection) learnCameraSample(cameraSelection, Number(cameraTime.value));
     });
-    byId("camera-guide-next").addEventListener("click", () => {
+    cameraGame.addEventListener("click", (event) => {
+      if (cameraGuideIndex >= cameraGuide.length || event.target.closest("#camera-close")) return;
+      event.preventDefault();
+      event.stopPropagation();
       cameraGuideIndex += 1;
       renderCameraGuide();
-    });
+    }, true);
     byId("camera-close").addEventListener("click", closeCameraGame);
     cameraGame.addEventListener("cancel", (event) => {
       event.preventDefault();
       closeCameraGame();
     });
 
+    const clueDiscovery = byId("clue-discovery");
+    const clueChallenges = {
+      fiber: { image: "resources/img/fiber-analysis.png" },
+      print: { image: "resources/img/footprint-measure.png" },
+      fingerprint: { image: "resources/img/fingerprint-minigame.png" }
+    };
+    const fiberGame = byId("fiber-game");
+    const fiberBoard = byId("fiber-board");
+    const fiberTools = [...byId("fiber-tools").querySelectorAll("button")];
+    const fiberOrder = ["zoom", "photo", "pixel", "numbers"];
+    // RGB values sampled from the same 4 × 4 region in the clue photo.
+    const fiberColors = [
+      [54,58,88], [55,57,85], [49,50,79], [53,57,87],
+      [59,65,93], [50,53,84], [53,55,86], [66,71,101],
+      [60,64,94], [51,54,86], [61,64,96], [83,86,124],
+      [55,57,91], [63,67,98], [82,86,118], [93,98,134]
+    ];
+    let fiberToken;
+    let fiberStep;
+    let draggedFiberTool;
+    const fingerprintSize = 1254;
+    const fingerprintGoal = 10;
+    const fingerprintEndings = [
+      [547,144], [465,196], [481,211], [414,316], [317,475], [297,494], [383,458], [252,649],
+      [236,669], [295,830], [430,762], [428,883], [359,935], [513,993], [418,978], [650,1058],
+      [465,1073], [495,1079], [649,1171], [616,209], [759,193], [787,202], [576,282], [514,375],
+      [814,323], [843,336], [873,457], [929,479], [934,547], [961,649], [832,914], [965,762],
+      [790,832], [920,685], [685,823], [866,610], [750,788], [569,470], [544,487], [617,513],
+      [735,679], [594,522], [515,557], [733,633], [683,723], [637,673], [602,723], [494,581],
+      [542,917], [819,1009]
+    ];
+    const fingerprintForks = [[462,277], [491,251], [900,524], [410,815], [856,954]];
+    const fingerprintFeatures = [
+      ...fingerprintEndings.map(([x,y]) => ({ x, y, fork: false })),
+      ...fingerprintForks.map(([x,y]) => ({ x, y, fork: true }))
+    ];
+    const fingerprintInstructions = [
+      "지문의 안쪽을 살펴보세요. 융선이 끊기는 곳이 끝점이에요.",
+      "융선이 Y자처럼 세 갈래로 만나는 곳이 분기점이에요.",
+      "끝점과 분기점을 클릭해 서로 다른 특징점 10개를 기록하세요."
+    ];
+    const fingerprintGame = byId("fingerprint-game");
+    const fingerprintBoard = byId("fingerprint-board");
+    const fingerprintGuide = byId("fingerprint-guide");
+    const fingerprintFound = new Set();
+    let fingerprintToken;
+    let fingerprintGuideIndex;
+    const footprintGame = byId("footprint-game");
+    const footprintBoard = byId("footprint-board");
+    const footprintRuler = byId("footprint-ruler");
+    const footprintSelection = byId("footprint-selection");
+    const footprintMeasures = new Set();
+    // Pixel bounds of the two visible impressions in the 560 × 560 image.
+    const footprintPhotoBounds = [
+      { field: "front", left: 169, top: 65, right: 388, bottom: 357 },
+      { field: "rear", left: 232, top: 389, right: 343, bottom: 511 }
+    ];
+    let footprintToken;
+    let footprintDrag;
+    let footprintTool;
+    let discoveryTimer;
+
+    const clueSuccess = byId("clue-success");
+    clueSuccess.addEventListener("cancel", (event) => event.preventDefault());
+
+    async function completeClueGame(token) {
+      if (clueSuccess.open || token.hidden) return;
+      const id = token.dataset.clue;
+      const center = byId("clue-success-center");
+      const logo = byId("clue-success-logo");
+      const stars = byId("clue-success-stars");
+      const image = byId("clue-success-image");
+      const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      image.src = id === "camera" ? "resources/img/surveillance-camera-clue.png" : clueChallenges[id].image;
+      const imageReady = image.decode().catch(() => {});
+      stars.replaceChildren();
+      center.hidden = false;
+      image.hidden = true;
+      clueSuccess.showModal();
+      try {
+        const pulseDuration = 300;
+        const burstCount = 5;
+        if (reduceMotion) {
+          await new Promise((resolve) => setTimeout(resolve, pulseDuration * burstCount));
+        } else {
+          const radiusX = logo.offsetWidth / 2 + 55;
+          const radiusY = logo.offsetHeight / 2 + 65;
+          for (let burst = 0; burst < burstCount; burst += 1) {
+            for (let index = 0; index < 8; index += 1) {
+              const star = document.createElement("span");
+              star.textContent = "★";
+              stars.append(star);
+              const angle = (index + burst / burstCount) * Math.PI / 4;
+              const x = Math.cos(angle) * radiusX;
+              const y = Math.sin(angle) * radiusY;
+              star.animate([
+                { transform: "translate(-50%, -50%) scale(.35)", opacity: 0 },
+                { opacity: 1, offset: .4 },
+                { transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) rotate(70deg) scale(1)`, opacity: 0 }
+              ], { duration: pulseDuration, delay: burst * pulseDuration, easing: "ease-out", fill: "both" });
+            }
+          }
+          await logo.animate([
+            { transform: "scale(1)", easing: "ease-out" },
+            { transform: "scale(1.18)", offset: .5, easing: "ease-in" },
+            { transform: "scale(1)" }
+          ], { duration: pulseDuration, iterations: burstCount }).finished;
+        }
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        await imageReady;
+        center.hidden = true;
+        image.hidden = false;
+        const sprite = detective.querySelector(".detective-sprite").getBoundingClientRect();
+        const bounds = image.getBoundingClientRect();
+        const x = sprite.left + sprite.width / 2 - bounds.left - bounds.width / 2;
+        const y = sprite.top + sprite.height * .43 - bounds.top - bounds.height / 2;
+        await image.animate(reduceMotion ? [{ opacity: 1 }, { opacity: 0 }] : [
+          { transform: "translate(-50%, -50%) scale(1)", opacity: 1 },
+          { transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) scale(.12)`, opacity: 0 }
+        ], { duration: reduceMotion ? 250 : 650, easing: "ease-in" }).finished;
+      } finally {
+        image.hidden = true;
+        clueSuccess.close();
+        registerClue(token);
+        detective.focus();
+      }
+    }
+
+    function closeClueDiscovery() {
+      clearTimeout(discoveryTimer);
+      delete roomScene.dataset.discovering;
+      fiberToken = undefined;
+      draggedFiberTool = undefined;
+      fiberGame.hidden = true;
+      fingerprintToken = undefined;
+      fingerprintGame.hidden = true;
+      footprintToken = undefined;
+      endFootprintDrag();
+      footprintGame.hidden = true;
+      clueDiscovery.close();
+    }
+
+    byId("fiber-close").addEventListener("click", closeClueDiscovery);
+    byId("fingerprint-close").addEventListener("click", closeClueDiscovery);
+    byId("footprint-close").addEventListener("click", closeClueDiscovery);
+    clueDiscovery.addEventListener("cancel", (event) => {
+      event.preventDefault();
+      closeClueDiscovery();
+    });
+
     function trainClue(token) {
-      if (token.hidden) return;
-      if (token.dataset.clue === "camera") {
-        openCameraGame(token);
+      if (token.hidden || clueDiscovery.open || cameraGame.open) return;
+      const id = token.dataset.clue;
+      if (!caseFile.clues[id].matches) {
+        registerClue(token);
         return;
       }
-      registerClue(token);
+
+      clearReaction();
+      selectClue(null);
+      roomScene.dataset.discovering = "";
+      clueDiscovery.dataset.phase = "reveal";
+      byId("clue-discovery-logo").hidden = false;
+      clueDiscovery.showModal();
+      discoveryTimer = setTimeout(() => {
+        delete roomScene.dataset.discovering;
+        if (id === "camera") {
+          closeClueDiscovery();
+          openCameraGame(token);
+          return;
+        }
+        if (id === "fingerprint") openFingerprintGame(token);
+        else if (id === "print") openFootprintGame(token);
+        else openFiberGame(token);
+      }, 900);
     }
+
+    function openFootprintGame(token) {
+      footprintToken = token;
+      footprintMeasures.clear();
+      setFootprintTool("ruler");
+      clueDiscovery.dataset.phase = "footprint";
+      byId("clue-discovery-logo").hidden = true;
+      byId("footprint-length").textContent = "미측정";
+      byId("footprint-width").textContent = "미측정";
+      byId("footprint-front").textContent = "미촬영";
+      byId("footprint-rear").textContent = "미촬영";
+      byId("footprint-reply").textContent = "";
+      footprintGame.hidden = false;
+      byId("footprint-title").focus();
+    }
+
+    function endFootprintDrag() {
+      const drag = footprintDrag;
+      footprintDrag = undefined;
+      footprintRuler.hidden = true;
+      footprintSelection.hidden = true;
+      if (drag && footprintBoard.hasPointerCapture(drag.id)) footprintBoard.releasePointerCapture(drag.id);
+    }
+
+    footprintBoard.addEventListener("dragstart", (event) => event.preventDefault());
+
+    function setFootprintTool(tool) {
+      endFootprintDrag();
+      footprintTool = tool;
+      byId("footprint-ruler-tool").setAttribute("aria-pressed", String(tool === "ruler"));
+      byId("footprint-photo-tool").setAttribute("aria-pressed", String(tool === "photo"));
+    }
+
+    byId("footprint-ruler-tool").addEventListener("click", () => setFootprintTool("ruler"));
+    byId("footprint-photo-tool").addEventListener("click", () => setFootprintTool("photo"));
+
+    function footprintCrop(start, event, bounds) {
+      const clamp = (value) => Math.max(0, Math.min(1, value));
+      const x = clamp((start.x - bounds.left) / bounds.width);
+      const y = clamp((start.y - bounds.top) / bounds.height);
+      const endX = clamp((event.clientX - bounds.left) / bounds.width);
+      const endY = clamp((event.clientY - bounds.top) / bounds.height);
+      return { x: Math.min(x, endX), y: Math.min(y, endY), width: Math.abs(x - endX), height: Math.abs(y - endY) };
+    }
+
+    footprintBoard.addEventListener("pointerdown", (event) => {
+      if (!footprintToken || footprintDrag || !event.isPrimary || event.button !== 0) return;
+      const bounds = footprintBoard.getBoundingClientRect();
+      footprintDrag = { id: event.pointerId, x: event.clientX, y: event.clientY };
+      footprintBoard.setPointerCapture(event.pointerId);
+      if (footprintTool === "photo") {
+        footprintSelection.style.left = event.clientX - bounds.left + "px";
+        footprintSelection.style.top = event.clientY - bounds.top + "px";
+        footprintSelection.style.width = "0";
+        footprintSelection.style.height = "0";
+        footprintSelection.hidden = false;
+        return;
+      }
+      footprintRuler.style.left = event.clientX - bounds.left + "px";
+      footprintRuler.style.top = event.clientY - bounds.top + "px";
+      footprintRuler.style.width = "0";
+      footprintRuler.style.transform = "translateY(-50%)";
+      footprintRuler.hidden = false;
+    });
+
+    footprintBoard.addEventListener("pointermove", (event) => {
+      if (footprintDrag?.id !== event.pointerId) return;
+      if (footprintTool === "photo") {
+        const crop = footprintCrop(footprintDrag, event, footprintBoard.getBoundingClientRect());
+        for (const [property, value] of Object.entries({ left: crop.x, top: crop.y, width: crop.width, height: crop.height })) {
+          footprintSelection.style[property] = value * 100 + "%";
+        }
+        return;
+      }
+      const dx = event.clientX - footprintDrag.x;
+      const dy = event.clientY - footprintDrag.y;
+      footprintRuler.style.width = Math.hypot(dx, dy) + "px";
+      footprintRuler.style.transform = `translateY(-50%) rotate(${Math.atan2(dy, dx)}rad)`;
+    });
+
+    footprintBoard.addEventListener("pointerup", (event) => {
+      if (footprintDrag?.id !== event.pointerId) return;
+      const bounds = footprintBoard.getBoundingClientRect();
+      const start = footprintDrag;
+      endFootprintDrag();
+      if (footprintTool === "photo") {
+        saveFootprintPhoto(footprintCrop(start, event, bounds));
+        return;
+      }
+      const dx = event.clientX - start.x;
+      const dy = event.clientY - start.y;
+      const vertical = Math.abs(dy) >= Math.abs(dx);
+      const field = vertical ? "length" : "width";
+      const major = vertical ? Math.abs(dy) : Math.abs(dx);
+      const minor = vertical ? Math.abs(dx) : Math.abs(dy);
+      // The original print is 445 pixels long and 216 pixels at its widest.
+      const value = Math.round(major * 560 / bounds.width * 260 / 445);
+      const expected = vertical ? 260 : 126;
+      const reply = byId("footprint-reply");
+      if (Math.abs(value - expected) > 12 || minor > major * .25) {
+        reply.textContent = vertical ? "앞코와 뒤꿈치 끝을 다시 맞춰 보세요." : "가장 넓은 부분의 양 끝을 다시 맞춰 보세요.";
+        return;
+      }
+      byId("footprint-" + field).textContent = expected + " mm";
+      reply.textContent = "측정 성공! 정답을 공개했어요.";
+      recordFootprintData(field);
+    });
+
+    function saveFootprintPhoto(crop) {
+      const reply = byId("footprint-reply");
+      const left = crop.x * 560;
+      const top = crop.y * 560;
+      const right = (crop.x + crop.width) * 560;
+      const bottom = (crop.y + crop.height) * 560;
+      const included = footprintPhotoBounds.filter((part) =>
+        left < part.right && right > part.left && top < part.bottom && bottom > part.top);
+      const [part] = included;
+      if (included.length !== 1 || left > part.left || top > part.top || right < part.right || bottom < part.bottom) {
+        reply.textContent = "앞굽이나 뒷굽 하나만 잘리지 않게 담아 주세요.";
+        return;
+      }
+      const field = part.field;
+      const preview = document.createElement("span");
+      preview.className = "footprint-crop";
+      preview.style.aspectRatio = crop.width / crop.height;
+      preview.style.width = Math.min(7, 5 * crop.width / crop.height) + "rem";
+      const image = footprintBoard.querySelector("img").cloneNode();
+      image.removeAttribute("width");
+      image.removeAttribute("height");
+      image.alt = field === "front" ? "촬영한 앞굽" : "촬영한 뒷굽";
+      image.style.width = 100 / crop.width + "%";
+      image.style.left = -100 * crop.x / crop.width + "%";
+      image.style.top = -100 * crop.y / crop.height + "%";
+      preview.append(image);
+      byId("footprint-" + field).replaceChildren(preview);
+      reply.textContent = image.alt + " 사진을 기록했어요.";
+      recordFootprintData(field);
+    }
+
+    function recordFootprintData(field) {
+      footprintMeasures.add(field);
+      if (footprintMeasures.size === 4) {
+        const token = footprintToken;
+        footprintToken = undefined;
+        discoveryTimer = setTimeout(() => {
+          closeClueDiscovery();
+          void completeClueGame(token);
+        }, 350);
+      }
+    }
+
+    for (const type of ["pointercancel", "lostpointercapture"]) {
+      footprintBoard.addEventListener(type, (event) => {
+        if (footprintDrag?.id === event.pointerId) endFootprintDrag();
+      });
+    }
+
+    function openFingerprintGame(token) {
+      fingerprintToken = token;
+      fingerprintGuideIndex = 0;
+      fingerprintFound.clear();
+      byId("clue-discovery-logo").hidden = true;
+      byId("fingerprint-points").replaceChildren();
+      byId("fingerprint-progress").textContent = "기록한 특징점 0/" + fingerprintGoal;
+      byId("fingerprint-reply").textContent = "";
+      byId("fingerprint-guide-line").textContent = fingerprintInstructions[0];
+      clueDiscovery.dataset.phase = "fingerprint-guide";
+      fingerprintGuide.hidden = false;
+      fingerprintGame.hidden = false;
+      byId("fingerprint-title").focus();
+    }
+
+    clueDiscovery.addEventListener("click", (event) => {
+      if (!fingerprintToken || fingerprintGuide.hidden || event.target.closest("#fingerprint-close")) return;
+      event.stopPropagation();
+      fingerprintGuideIndex += 1;
+      if (fingerprintGuideIndex === fingerprintInstructions.length) {
+        fingerprintGuide.hidden = true;
+        delete clueDiscovery.dataset.phase;
+      } else {
+        byId("fingerprint-guide-line").textContent = fingerprintInstructions[fingerprintGuideIndex];
+      }
+    }, true);
+
+    fingerprintBoard.addEventListener("click", (event) => {
+      if (!fingerprintToken || !fingerprintGuide.hidden) return;
+      const bounds = fingerprintBoard.getBoundingClientRect();
+      const x = (event.clientX - bounds.left) / bounds.width * fingerprintSize;
+      const y = (event.clientY - bounds.top) / bounds.height * fingerprintSize;
+      const reply = byId("fingerprint-reply");
+      let closest;
+      let distance = Math.min(32, 12 / bounds.width * fingerprintSize);
+      for (const feature of fingerprintFeatures) {
+        const offset = Math.hypot(feature.x - x, feature.y - y);
+        if (offset > distance) continue;
+        closest = feature;
+        distance = offset;
+      }
+      if (!closest || fingerprintFound.has(closest)) {
+        reply.textContent = closest ? "이미 기록한 특징점이에요." : "융선이 끝나거나 갈라지는 곳을 눌러 보세요.";
+        return;
+      }
+      fingerprintFound.add(closest);
+      const marker = document.createElement("span");
+      marker.className = "fingerprint-point";
+      marker.toggleAttribute("data-fork", closest.fork);
+      marker.style.left = closest.x / fingerprintSize * 100 + "%";
+      marker.style.top = closest.y / fingerprintSize * 100 + "%";
+      byId("fingerprint-points").append(marker);
+      byId("fingerprint-progress").textContent = "기록한 특징점 " + fingerprintFound.size + "/" + fingerprintGoal;
+      reply.textContent = (closest.fork ? "분기점" : "끝점") + " · X " + closest.x + " · Y " + closest.y;
+      if (fingerprintFound.size === fingerprintGoal) {
+        const token = fingerprintToken;
+        fingerprintToken = undefined;
+        discoveryTimer = setTimeout(() => {
+          closeClueDiscovery();
+          void completeClueGame(token);
+        }, 350);
+      }
+    });
+
+    function openFiberGame(token) {
+      delete clueDiscovery.dataset.phase;
+      byId("clue-discovery-logo").hidden = true;
+      fiberToken = token;
+      fiberStep = 0;
+      fiberBoard.dataset.step = "0";
+      byId("fiber-image").hidden = false;
+      byId("fiber-pixels").hidden = true;
+      byId("fiber-reply").textContent = "도구를 올바른 순서로 천 조각에 끌어 놓으세요.";
+      for (const button of fiberTools) button.disabled = false;
+      fiberGame.hidden = false;
+      byId("fiber-title").focus();
+    }
+
+    function applyFiberTool(tool) {
+      if (!fiberToken) return;
+      const reply = byId("fiber-reply");
+      if (tool !== fiberOrder[fiberStep]) {
+        fiberToken = undefined;
+        reply.textContent = "다시 시도하시오";
+        discoveryTimer = setTimeout(closeClueDiscovery, 1100);
+        return;
+      }
+      fiberStep += 1;
+      fiberBoard.dataset.step = String(fiberStep);
+      fiberTools.find((button) => button.dataset.fiberTool === tool).disabled = true;
+      if (fiberStep <= 2) {
+        reply.textContent = fiberStep === 1 ? "천 조각을 확대했어요." : "확대한 천 조각을 사진으로 기록했어요.";
+        return;
+      }
+      const pixels = byId("fiber-pixels");
+      byId("fiber-image").hidden = true;
+      pixels.hidden = false;
+      pixels.replaceChildren(...fiberColors.map(([r, g, b]) => {
+        const cell = document.createElement("span");
+        cell.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+        if (fiberStep === 4) cell.textContent = `R ${r}\nG ${g}\nB ${b}`;
+        return cell;
+      }));
+      reply.textContent = fiberStep === 3 ? "사진의 일부를 4×4 픽셀 격자로 펼쳤어요." : "각 픽셀의 빨강·초록·파랑 값을 기록했어요.";
+      if (fiberStep === fiberOrder.length) {
+        const token = fiberToken;
+        fiberToken = undefined;
+        discoveryTimer = setTimeout(() => {
+          closeClueDiscovery();
+          void completeClueGame(token);
+        }, 1000);
+      }
+    }
+
+    for (const button of fiberTools) {
+      button.addEventListener("dragstart", (event) => {
+        if (!fiberToken) {
+          event.preventDefault();
+          return;
+        }
+        draggedFiberTool = button.dataset.fiberTool;
+        event.dataTransfer.setData("text/plain", draggedFiberTool);
+        event.dataTransfer.effectAllowed = "copy";
+      });
+      button.addEventListener("dragend", () => { draggedFiberTool = undefined; });
+      button.addEventListener("click", () => applyFiberTool(button.dataset.fiberTool));
+    }
+    fiberBoard.addEventListener("dragover", (event) => {
+      if (draggedFiberTool) event.preventDefault();
+    });
+    fiberBoard.addEventListener("drop", (event) => {
+      if (!draggedFiberTool) return;
+      event.preventDefault();
+      applyFiberTool(draggedFiberTool);
+      draggedFiberTool = undefined;
+    });
 
     function registerClue(token) {
       const id = token.dataset.clue;
