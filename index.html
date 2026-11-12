@@ -8,7 +8,7 @@
   <style>
     @font-face {
       font-family: "Memoment Kkukkukk";
-      src: url("MemomentKkukkukk.ttf") format("truetype");
+      src: url("resources/img/MemomentKkukkukk.ttf") format("truetype");
       font-style: normal;
       font-weight: 400;
       font-display: swap;
@@ -90,7 +90,7 @@
     .title-subtitle {
       padding: .52rem 1.235rem; border: 1.3px solid #d4a173; border-radius: 1.04rem;
       font-size: 1.3rem;
-      background: #61412f url("detective-paper.png") center / 19rem auto;
+      background: #61412f url("resources/img/detective-paper.png") center / 19rem auto;
       background-blend-mode: multiply; color: #fff8e6; box-shadow: 0 .16rem .55rem #27170f66;
     }
     h2 { font-size: clamp(1.7rem, 5vw, 2.8rem); letter-spacing: -.045em; }
@@ -129,7 +129,7 @@
     @media (max-aspect-ratio: 1/1) {
       .title-scene::before {
         position: absolute; inset: 0; content: "";
-        background: url("title-office.png") center / cover no-repeat;
+        background: url("resources/img/title-office.png") center / cover no-repeat;
         filter: blur(18px) brightness(.7);
       }
       .hero-art { position: relative; object-fit: contain; object-position: center; }
@@ -151,7 +151,7 @@
     .comic-frame { position: absolute; inset: 0; margin: 0; cursor: pointer; }
     .comic-art {
       position: absolute; inset: 0; overflow: hidden; background: #392a1c;
-      --comic-image: url("comic-fhd/incident-1.jpg");
+      --comic-image: url("resources/comic/incident-1.jpg");
     }
     .comic-course-link {
       position: absolute; z-index: 2; left: 50%; bottom: max(5%, env(safe-area-inset-bottom)); width: 80%;
@@ -266,7 +266,7 @@
     .comic-caption strong { color: var(--rust); font-size: .82rem; }
     .comic-caption p { margin: .1rem 0 0; font-size: clamp(1rem, 2.25vw, 1.55rem); font-weight: 800; line-height: 1.4; word-break: keep-all; }
     .comic-screen[data-chapter="incident"] .comic-caption {
-      background: #fff4dc url("detective-paper.png") center / 21rem auto;
+      background: #fff4dc url("resources/img/detective-paper.png") center / 21rem auto;
       background-blend-mode: multiply;
     }
     .comic-screen[data-chapter="incident"] .comic-caption {
@@ -437,7 +437,7 @@
     .clue-token, .clue-ghost {
       display: block; width: clamp(2.75rem, min(10vw, 12svh), 6rem); min-height: 0; aspect-ratio: 1;
       padding: 0; border: 0; border-radius: .5rem; background-color: transparent;
-      background-image: url("clue-objects.png"); background-repeat: no-repeat;
+      background-image: url("resources/img/clue-objects.png"); background-repeat: no-repeat;
       background-size: 300% 200%; background-position: var(--object-x, 0%) var(--object-y, 0%);
       filter: drop-shadow(0 3px 2px #4c2e1b62);
     }
@@ -461,7 +461,7 @@
     .fingerprint-mark, .clue-ghost[data-clue="fingerprint"]::before {
       position: absolute; left: 50%; top: 50%; width: 24px; aspect-ratio: 4 / 5; content: "";
       transform: translate(-50%, -50%) rotate(-21deg);
-      background: url("fingerprint-pen.png") center / contain no-repeat;
+      background: url("resources/img/fingerprint-pen.png") center / contain no-repeat;
       pointer-events: none;
     }
     .fingerprint-site .clue-token[hidden] + .fingerprint-mark { display: none; }
@@ -474,22 +474,22 @@
     .clue-token[data-clue="plant"] { width: 136px; aspect-ratio: 4 / 5; }
     .clue-token[data-clue="cushion"] { width: 132px; }
     .clue-ghost:is([data-clue="cup"], [data-clue="stationery"]) {
-      background: url("nahee-room-exploration.png") no-repeat var(--crop-x) var(--crop-y) / 1280% 853.333%;
+      background: url("resources/img/nahee-room-exploration.png") no-repeat var(--crop-x) var(--crop-y) / 1280% 853.333%;
       border-radius: .55rem;
     }
     .clue-ghost[data-clue="cup"] { --crop-x: 24%; --crop-y: 73.7%; }
     .clue-ghost[data-clue="stationery"] { --crop-x: 75.5%; --crop-y: 36.6%; }
     .clue-ghost[data-clue="picture"] {
-      background: url("nahee-room-fabric.png") no-repeat 37.5% 80.3% / 1097.14% 731.43%;
+      background: url("resources/img/nahee-room-fabric.png") no-repeat 37.5% 80.3% / 1097.14% 731.43%;
       clip-path: polygon(6% 35%, 75% 15%, 95% 62%, 24% 87%);
     }
     .clue-ghost[data-clue="print"] {
       aspect-ratio: 133 / 106;
-      background: url("footprint-trail-clue.png") center / contain no-repeat;
+      background: url("resources/img/footprint-trail-clue.png") center / contain no-repeat;
       clip-path: polygon(4% 91%, 14% 64%, 31% 43%, 54% 31%, 70% 14%, 91% 7%, 96% 27%, 77% 51%, 57% 60%, 34% 85%, 13% 97%);
     }
     .clue-ghost[data-clue="camera"] {
-      background: url("surveillance-camera-clue.png") center / contain no-repeat;
+      background: url("resources/img/surveillance-camera-clue.png") center / contain no-repeat;
       clip-path: polygon(25% 16%, 70% 13%, 87% 25%, 88% 67%, 72% 79%, 70% 96%, 53% 96%, 52% 83%, 26% 82%, 18% 68%, 18% 33%);
     }
     .room-status { min-height: 1.5em; }
@@ -510,7 +510,7 @@
     .camera-timeline input { width: 100%; margin: 0; accent-color: #e9b36b; }
     .camera-frame {
       position: relative; display: block; width: 100%; aspect-ratio: 1;
-      border: 1px solid #b08863; background: #50372b var(--cam-image, url("homecam-camera-view.png")) no-repeat var(--cam-x, 0%) var(--cam-y, 0%) / var(--cam-size, 300% 400%);
+      border: 1px solid #b08863; background: #50372b var(--cam-image, url("resources/homecam/homecam-camera-view.png")) no-repeat var(--cam-x, 0%) var(--cam-y, 0%) / var(--cam-size, 300% 400%);
     }
     .camera-frame, .camera-clip { touch-action: none; cursor: grab; }
     .camera-frame[aria-pressed="true"], .camera-clip[aria-pressed="true"] { outline: 2px solid #f2c983; }
@@ -573,7 +573,7 @@
     }
     .camera-game[data-guide="3"] .camera-learner::before {
       top: 27%;
-      background: #50372b var(--cam-image, url("homecam-camera-view.png")) no-repeat var(--cam-x) var(--cam-y) / var(--cam-size, 300% 400%);
+      background: #50372b var(--cam-image, url("resources/homecam/homecam-camera-view.png")) no-repeat var(--cam-x) var(--cam-y) / var(--cam-size, 300% 400%);
     }
     .camera-game[data-guide="3"] .camera-learner::after {
       top: 51%; aspect-ratio: 2 / 1;
@@ -593,12 +593,12 @@
       background: #5b4432; display: grid; place-items: center; color: #fff2dc; font-size: .8rem;
     }
     .camera-ghost[data-kind="image"] {
-      aspect-ratio: 1; background: #50372b var(--cam-image, url("homecam-camera-view.png")) no-repeat var(--cam-x) var(--cam-y) / var(--cam-size, 300% 400%);
+      aspect-ratio: 1; background: #50372b var(--cam-image, url("resources/homecam/homecam-camera-view.png")) no-repeat var(--cam-x) var(--cam-y) / var(--cam-size, 300% 400%);
     }
-    .camera-game [data-departure] { --cam-image: url("homecam-masked-storybook.png"); --cam-size: 100% 100%; }
+    .camera-game [data-departure] { --cam-image: url("resources/homecam/homecam-masked-storybook.png"); --cam-size: 100% 100%; }
     .camera-frame[data-footprints]::after, .camera-ghost[data-kind="image"][data-footprints]::after {
       position: absolute; left: 37%; top: 60%; width: 39%; aspect-ratio: 1.45; content: "";
-      background: url("homecam-footprints.png") center / 100% 100% no-repeat;
+      background: url("resources/homecam/homecam-footprints.png") center / 100% 100% no-repeat;
       opacity: .88; pointer-events: none;
     }
     .camera-frame[data-footprints="partial"]::after, .camera-ghost[data-kind="image"][data-footprints="partial"]::after {
@@ -612,14 +612,14 @@
     .suspect-board {
       width: min(95vw, 66rem); max-width: none; height: min(92svh, 49rem); max-height: none;
       padding: .38rem; overflow: hidden; border: 2px solid #4e3022; border-radius: .9rem; color: #39271b;
-      background: #76503a url("detective-paper.png") center / 22rem auto; background-blend-mode: multiply;
+      background: #76503a url("resources/img/detective-paper.png") center / 22rem auto; background-blend-mode: multiply;
       box-shadow: 0 .45rem 1.5rem #29180f87;
     }
     .suspect-board::backdrop { background: #271a14a8; }
     .board-shell {
       display: grid; grid-template-rows: auto minmax(0, 1fr); height: 100%; overflow: hidden;
       border: 1px solid #c49e70; border-radius: .52rem;
-      background: #f8edcf url("detective-paper.png") center / 25rem auto; background-blend-mode: multiply;
+      background: #f8edcf url("resources/img/detective-paper.png") center / 25rem auto; background-blend-mode: multiply;
       box-shadow: 0 2px #d9bb8d, 0 4px #b29067;
     }
     .board-heading { display: flex; justify-content: space-between; align-items: center; gap: .6rem; padding: .7rem 1rem; border-bottom: 1px solid #b9946b; }
@@ -649,7 +649,7 @@
     }
     .suspect-portrait::before {
       position: absolute; inset: 0; content: "";
-      background: #e5c79e url("suspect-portraits.png") no-repeat var(--portrait-x) var(--portrait-y) / 400% 300%;
+      background: #e5c79e url("resources/img/suspect-portraits.png") no-repeat var(--portrait-x) var(--portrait-y) / 400% 300%;
       filter: sepia(.18) saturate(.79) contrast(.92);
     }
     .suspect[data-match="true"] .suspect-portrait::after {
@@ -674,7 +674,7 @@
     .camera-timeline label, .camera-audio h3 { font-size: .88rem; }
     .camera-still {
       display: block; width: 100%; aspect-ratio: 5 / 3; padding: 0; touch-action: none; cursor: grab;
-      background: #61412f url("home-camera-frames.png") no-repeat var(--camera-x, 0%) var(--camera-y, 0%) / 200% 500%;
+      background: #61412f url("resources/homecam/homecam-frames.png") no-repeat var(--camera-x, 0%) var(--camera-y, 0%) / 200% 500%;
     }
     .camera-audio-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .25rem; margin: .3rem 0; }
     .camera-audio-grid button { min-width: 0; min-height: 2rem; padding: .12rem; touch-action: none; cursor: grab; }
@@ -743,9 +743,9 @@
     </nav>
 
     <section id="intro" class="hero" aria-labelledby="intro-title">
-      <audio id="title-bgm" src="title_bgm.mp3" autoplay loop preload="auto"></audio>
+      <audio id="title-bgm" src="sound/title_bgm.mp3" autoplay loop preload="auto"></audio>
       <div class="title-scene">
-        <img class="hero-art" src="title-office.png" width="1536" height="1024" alt="미스터 아이가 책상 위 단서를 돋보기로 살피는 동안, 민철이 증거를 한아름 안고 탐정 사무소에 들어온다.">
+        <img class="hero-art" src="resources/img/title-office.png" width="1536" height="1024" alt="미스터 아이가 책상 위 단서를 돋보기로 살피는 동안, 민철이 증거를 한아름 안고 탐정 사무소에 들어온다.">
         <div class="title-logo">
           <p class="eyebrow">학습형 AI 탐정</p>
           <h1 id="intro-title" tabindex="-1"><span>탐정,</span> 미스터 아이</h1>
@@ -772,7 +772,7 @@
       <figure class="comic-frame">
         <div id="comic-art" class="comic-art" role="img">
           <div id="comic-memory" class="comic-memory" hidden aria-hidden="true">
-            <div class="comic-memory-spot"><img src="rabbit-plush.png" alt=""></div>
+            <div class="comic-memory-spot"><img src="resources/img/rabbit-plush.png" alt=""></div>
           </div>
         </div>
         <figcaption id="comic-caption" class="comic-caption" aria-live="polite" aria-atomic="true">
@@ -807,7 +807,7 @@
       <div id="house-view" class="house-scene">
         <div id="room-viewport" class="room-viewport">
           <div id="room-world" class="room-world">
-            <img class="house-map" src="nahee-room-fabric.png" width="1536" height="1024" draggable="false" alt="위에서 내려다본 나희의 집. 어질러진 거실, 책이 흩어진 공부방, 신발 자국이 남은 현관이 이어져 있다.">
+            <img class="house-map" src="resources/img/nahee-room-fabric.png" width="1536" height="1024" draggable="false" alt="위에서 내려다본 나희의 집. 어질러진 거실, 책이 흩어진 공부방, 신발 자국이 남은 현관이 이어져 있다.">
             <button class="clue-token" type="button" data-clue="fiber" aria-label="천 조각" aria-pressed="false" style="--x:17%;--y:43.6%"></button>
             <button class="clue-token" type="button" data-clue="camera" aria-label="현관 감시 카메라 영상" aria-pressed="false" style="--x:96.6%;--y:53.6%"></button>
             <button class="clue-token" type="button" data-clue="print" aria-label="신발 자국" aria-pressed="false" style="--x:82.3%;--y:77%"></button>
@@ -834,7 +834,7 @@
           </div>
         </div>
         <button id="talk-to-nahee" class="nahee-hotspot" type="button" aria-label="나희에게 말 걸기" aria-controls="nahee-dialogue" aria-expanded="false">
-          <span class="nahee-portrait"><img src="nahee-standing.png" alt=""></span>
+          <span class="nahee-portrait"><img src="resources/img/nahee-standing.png" alt=""></span>
           <span class="nahee-name" aria-hidden="true">나희</span>
         </button>
         <div id="nahee-dialogue" class="nahee-dialogue" hidden>
@@ -844,9 +844,9 @@
         </div>
         <button id="detective-target" class="detective-target" type="button" aria-label="미스터 아이에게 선택한 단서 건네기">
           <span class="detective-sprite">
-            <img class="standing-sprite" src="mr-eye-standing.png" alt="">
-            <img class="reaction-sprite insight-sprite" src="mr-eye-insight.png" alt="">
-            <img class="reaction-sprite shake-head" src="mr-eye-shake.png" alt="">
+            <img class="standing-sprite" src="resources/img/mr-eye-standing.png" alt="">
+            <img class="reaction-sprite insight-sprite" src="resources/img/mr-eye-insight.png" alt="">
+            <img class="reaction-sprite shake-head" src="resources/img/mr-eye-shake.png" alt="">
           </span>
           <span class="detective-name">미스터 아이</span>
         </button>
@@ -883,9 +883,9 @@
             <p id="camera-progress" class="camera-progress"></p>
             <div class="camera-portrait">
               <button id="camera-learner" class="camera-learner" type="button" aria-label="미스터 아이에게 선택한 데이터 건네기">
-                <img class="camera-neutral" src="mr-eye-standing.png" alt="">
-                <img class="camera-pose camera-thinking" src="mr-eye-insight.png" alt="">
-                <img class="camera-pose camera-shake" src="mr-eye-shake.png" alt="">
+                <img class="camera-neutral" src="resources/img/mr-eye-standing.png" alt="">
+                <img class="camera-pose camera-thinking" src="resources/img/mr-eye-insight.png" alt="">
+                <img class="camera-pose camera-shake" src="resources/img/mr-eye-shake.png" alt="">
                 <span>학습 중</span>
               </button>
               <p id="camera-reply" class="camera-reply" role="status"></p>
@@ -901,7 +901,7 @@
             <button id="close-suspects" class="secondary" type="button" aria-label="용의자 목록 닫기" autofocus>×</button>
           </header>
           <div class="board-body">
-            <div class="board-detective"><p id="board-reply" role="status">누구일까...?</p><img src="mr-eye-standing.png" alt="미스터 아이"></div>
+            <div class="board-detective"><p id="board-reply" role="status">누구일까...?</p><img src="resources/img/mr-eye-standing.png" alt="미스터 아이"></div>
             <div class="board-scroll" tabindex="0" aria-label="용의자 명단">
               <p id="board-summary" class="board-summary"></p>
               <p id="board-findings" class="board-findings" hidden></p>
@@ -914,8 +914,8 @@
 
     <section id="result" class="result-screen" aria-labelledby="result-title" hidden>
       <h2 id="result-title" class="result-title" tabindex="-1">수사 결과</h2>
-      <img id="result-detective" class="result-detective" src="mr-eye-insight.png" alt="턱을 괴고 고민하는 미스터 아이">
-      <img id="result-art" class="result-art" src="comic-fhd/result-accusation.jpg" width="1920" height="1080" alt="집 밖에서 미스터 아이의 등 바로 뒤로 본 장면. 미스터 아이는 입을 0 모양으로 벌린 옆얼굴을 보이며 왼손으로 도윤을 가리킨다. 스피드선은 손사래를 치는 도윤을 향한다." hidden>
+      <img id="result-detective" class="result-detective" src="resources/img/mr-eye-insight.png" alt="턱을 괴고 고민하는 미스터 아이">
+      <img id="result-art" class="result-art" src="resources/comic/result-accusation.jpg" width="1920" height="1080" alt="집 밖에서 미스터 아이의 등 바로 뒤로 본 장면. 미스터 아이는 입을 0 모양으로 벌린 옆얼굴을 보이며 왼손으로 도윤을 가리킨다. 스피드선은 손사래를 치는 도윤을 향한다." hidden>
       <p id="result-line" class="result-line" role="status" aria-atomic="true"></p>
       <button id="show-course" class="result-continue" type="button" hidden>다음</button>
     </section>
@@ -965,21 +965,21 @@
     const steps = [...document.querySelectorAll("[data-step]")];
 
     const incidentPanels = [
-      { speaker: "사무소의 오후", line: "미스터 아이는 따뜻한 차를 마시며 한가로운 오후를 보내고 있었어요.", art: "미스터 아이가 탐정 사무소 의자에 기대어 찻잔을 들고 있다.", duration: 5000, sound: "incident_chirp.mp3" },
-      { speaker: "민철", line: "탐정님!", art: "민철이 사무소 문을 급히 밀치고 들어온다.", duration: 3500, sound: "incident_door_burst.mp3" },
+      { speaker: "사무소의 오후", line: "미스터 아이는 따뜻한 차를 마시며 한가로운 오후를 보내고 있었어요.", art: "미스터 아이가 탐정 사무소 의자에 기대어 찻잔을 들고 있다.", duration: 5000, sound: "sound/02_incident/incident_chirp.mp3" },
+      { speaker: "민철", line: "탐정님!", art: "민철이 사무소 문을 급히 밀치고 들어온다.", duration: 3500, sound: "sound/02_incident/incident_door_burst.mp3" },
       { speaker: "미스터 아이", line: "무슨 일이시죠?", art: "미스터 아이가 의자에서 벌떡 일어나 민철을 바라본다.", duration: 4000 },
       { speaker: "민철", line: "나희의 집에 강도가 들은 것 같아요!", art: "민철이 미스터 아이에게 열린 현관문 사진을 보여준다.", duration: 5500 },
-      { speaker: "미스터 아이", line: "…!", art: "미스터 아이가 서둘러 탐정 코트를 입고 모자를 챙긴다.", duration: 3500, sound: "incident_coat_swish.mp3" },
-      { speaker: "미스터 아이", line: "가시죠!", art: "사무소 입구가 멀리 보이는 길에서 미스터 아이가 질주한다. 손을 잡은 민철은 속도에 몸이 공중으로 들려 어지러워한다.", duration: 4000, sound: "incident_dash.mp3" }
+      { speaker: "미스터 아이", line: "…!", art: "미스터 아이가 서둘러 탐정 코트를 입고 모자를 챙긴다.", duration: 3500, sound: "sound/02_incident/incident_coat_swish.mp3" },
+      { speaker: "미스터 아이", line: "가시죠!", art: "사무소 입구가 멀리 보이는 길에서 미스터 아이가 질주한다. 손을 잡은 민철은 속도에 몸이 공중으로 들려 어지러워한다.", duration: 4000, sound: "sound/02_incident/incident_dash.mp3" }
     ];
     const investigationPanels = [
-      { speaker: "나희의 집", line: "어질러진 집 한가운데 나희가 주저앉아 울고 있었어요.", art: "서랍이 열린 가구와 흩어진 물건들 사이에서 나희가 주저앉아 눈물을 흘린다.", duration: 5000, sound: "investigation_sobbing.mp3" },
-      { speaker: "민철", line: "저희가 왔어요!", art: "문이 열리고 미스터 아이와 민철이 나희의 집으로 들어온다.", duration: 4000, sound: "investigation_door_open.mp3" },
-      { speaker: "미스터 아이", line: "무슨 일이 있었나요?", art: "미스터 아이와 민철이 바닥에 주저앉아 엉엉 우는 나희에게 다가간다.", duration: 4500, sound: "investigation_footsteps.mp3" },
-      { speaker: "나희", line: "제 소중한 토끼 인형을 누군가 훔쳐갔어요!", art: "주저앉아 우는 나희의 오른쪽 아래에 한쪽 귀를 꿰맨 토끼 인형의 모습이 보인다.", duration: 6000, rabbit: true, sound: "investigation_rabbit_memory.mp3" },
-      { speaker: "미스터 아이", line: "흐음...", art: "미스터 아이가 흩어진 물건을 살피는 동안 민철은 나희 곁에 앉아 달랜다.", duration: 5000, sound: "investigation_hmm.mp3" },
-      { speaker: "미스터 아이", line: "단서를 찾아보죠!", art: "미스터 아이가 비장한 표정으로 민철에게 단서를 찾자고 말한다.", duration: 4000, sound: "investigation_search_start.mp3" },
-      { speaker: "민철", line: "네! 단서를 모아보겠습니다!", art: "민철이 미스터 아이를 향해 씩씩하게 경례한다.", duration: 4500, sound: "investigation_salute.mp3" }
+      { speaker: "나희의 집", line: "어질러진 집 한가운데 나희가 주저앉아 울고 있었어요.", art: "서랍이 열린 가구와 흩어진 물건들 사이에서 나희가 주저앉아 눈물을 흘린다.", duration: 5000, sound: "sound/03_investigation/investigation_sobbing.mp3" },
+      { speaker: "민철", line: "저희가 왔어요!", art: "문이 열리고 미스터 아이와 민철이 나희의 집으로 들어온다.", duration: 4000, sound: "sound/03_investigation/investigation_door_open.mp3" },
+      { speaker: "미스터 아이", line: "무슨 일이 있었나요?", art: "미스터 아이와 민철이 바닥에 주저앉아 엉엉 우는 나희에게 다가간다.", duration: 4500, sound: "sound/03_investigation/investigation_footsteps.mp3" },
+      { speaker: "나희", line: "제 소중한 토끼 인형을 누군가 훔쳐갔어요!", art: "주저앉아 우는 나희의 오른쪽 아래에 한쪽 귀를 꿰맨 토끼 인형의 모습이 보인다.", duration: 6000, rabbit: true, sound: "sound/03_investigation/investigation_rabbit_memory.mp3" },
+      { speaker: "미스터 아이", line: "흐음...", art: "미스터 아이가 흩어진 물건을 살피는 동안 민철은 나희 곁에 앉아 달랜다.", duration: 5000, sound: "sound/03_investigation/investigation_hmm.mp3" },
+      { speaker: "미스터 아이", line: "단서를 찾아보죠!", art: "미스터 아이가 비장한 표정으로 민철에게 단서를 찾자고 말한다.", duration: 4000, sound: "sound/03_investigation/investigation_search_start.mp3" },
+      { speaker: "민철", line: "네! 단서를 모아보겠습니다!", art: "민철이 미스터 아이를 향해 씩씩하게 경례한다.", duration: 4500, sound: "sound/03_investigation/investigation_salute.mp3" }
     ];
     const endingPanels = [
       { speaker: "도윤", line: "죄송해요...! 제 여동생이 인형을 좋아해서 그만...", art: "도윤이 집 앞에 서서 눈물을 흘리며 사과한다.", duration: 5500 },
@@ -1031,7 +1031,7 @@
       const caption = byId("comic-caption");
       const chapter = byId("incident").dataset.chapter;
       art.dataset.panel = comicIndex + 1;
-      art.style.setProperty("--comic-image", `url("comic-fhd/${chapter}-${comicIndex + 1}.jpg")`);
+      art.style.setProperty("--comic-image", `url("resources/comic/${chapter}-${comicIndex + 1}.jpg")`);
       byId("comic-memory").hidden = !panel.rabbit;
       caption.dataset.panel = comicIndex + 1;
       caption.toggleAttribute("data-rabbit", Boolean(panel.rabbit));
@@ -1264,16 +1264,16 @@
     }
 
     const cameraRecords = [
-      { scene: "빈 현관", caption: "[조용한 실내]", file: "homecam-room-tone.wav" },
-      { scene: "현관을 지나가는 고양이", caption: "[가벼운 발소리]", file: "investigation_footsteps.mp3" },
-      { scene: "외출하는 나희", caption: "금방 다녀올게.", file: "homecam-voice-03.wav" },
-      { scene: "닫힌 현관문", caption: "[조용한 실내]", file: "homecam-room-tone.wav" },
-      { scene: "햇빛이 드는 빈 현관", caption: "[조용한 실내]", file: "homecam-room-tone.wav" },
-      { scene: "조금 열린 현관문", caption: "[문이 열리는 소리]", file: "investigation_door_open.mp3" },
-      { scene: "눈만 드러나는 남색 복면을 쓴 사람이 토끼 인형을 들고 나가고, 발밑의 현관 매트에 발자국이 찍혀 있다.", caption: "[급한 발소리]", file: "investigation_footsteps.mp3", evidence: "image" },
-      { scene: "문이 닫히는 빈 현관", caption: "동생이 좋아하겠지. 토끼 인형은 내가 가져갈게.", file: "homecam-voice-08.wav", evidence: "audio" },
-      { scene: "해가 기울고 비어 있는 현관", caption: "[조용한 실내]", file: "homecam-room-tone.wav" },
-      { scene: "현관문을 열고 집 안으로 들어오는 나희의 얼굴이 보이는 장면", caption: "어? 현관문이 왜 열려 있지?", file: "homecam-voice-10.wav" }
+      { scene: "빈 현관", caption: "[조용한 실내]", file: "sound/03_investigation/homecam-room-tone.wav" },
+      { scene: "현관을 지나가는 고양이", caption: "[가벼운 발소리]", file: "sound/03_investigation/investigation_footsteps.mp3" },
+      { scene: "외출하는 나희", caption: "금방 다녀올게.", file: "sound/03_investigation/homecam-voice-03.wav" },
+      { scene: "닫힌 현관문", caption: "[조용한 실내]", file: "sound/03_investigation/homecam-room-tone.wav" },
+      { scene: "햇빛이 드는 빈 현관", caption: "[조용한 실내]", file: "sound/03_investigation/homecam-room-tone.wav" },
+      { scene: "조금 열린 현관문", caption: "[문이 열리는 소리]", file: "sound/03_investigation/investigation_door_open.mp3" },
+      { scene: "눈만 드러나는 남색 복면을 쓴 사람이 토끼 인형을 들고 나가고, 발밑의 현관 매트에 발자국이 찍혀 있다.", caption: "[급한 발소리]", file: "sound/03_investigation/investigation_footsteps.mp3", evidence: "image" },
+      { scene: "문이 닫히는 빈 현관", caption: "동생이 좋아하겠지. 토끼 인형은 내가 가져갈게.", file: "sound/03_investigation/homecam-voice-08.wav", evidence: "audio" },
+      { scene: "해가 기울고 비어 있는 현관", caption: "[조용한 실내]", file: "sound/03_investigation/homecam-room-tone.wav" },
+      { scene: "현관문을 열고 집 안으로 들어오는 나희의 얼굴이 보이는 장면", caption: "어? 현관문이 왜 열려 있지?", file: "sound/03_investigation/homecam-voice-10.wav" }
     ];
     const cameraDeparture = cameraRecords.findIndex((record) => record.evidence === "image");
     const cameraGuide = [
